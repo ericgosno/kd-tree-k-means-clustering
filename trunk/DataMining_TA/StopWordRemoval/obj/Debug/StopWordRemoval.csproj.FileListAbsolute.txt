@@ -1,0 +1,7 @@
+C:\Users\3nc\documents\visual studio 2010\Projects\DataMining_TA\StopWordRemoval\bin\Debug\StopWordRemoval.dll
+C:\Users\3nc\documents\visual studio 2010\Projects\DataMining_TA\StopWordRemoval\bin\Debug\StopWordRemoval.pdb
+C:\Users\3nc\documents\visual studio 2010\Projects\DataMining_TA\StopWordRemoval\bin\Debug\Stemmer.dll
+C:\Users\3nc\documents\visual studio 2010\Projects\DataMining_TA\StopWordRemoval\bin\Debug\Stemmer.pdb
+C:\Users\3nc\documents\visual studio 2010\Projects\DataMining_TA\StopWordRemoval\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\3nc\documents\visual studio 2010\Projects\DataMining_TA\StopWordRemoval\obj\Debug\StopWordRemoval.dll
+C:\Users\3nc\documents\visual studio 2010\Projects\DataMining_TA\StopWordRemoval\obj\Debug\StopWordRemoval.pdb

@@ -1,0 +1,8 @@
+c:\users\3nc\documents\visual studio 2010\Projects\DataMining_TA\DataMining_TA\bin\Debug\DataMining_TA.exe
+c:\users\3nc\documents\visual studio 2010\Projects\DataMining_TA\DataMining_TA\bin\Debug\DataMining_TA.pdb
+c:\users\3nc\documents\visual studio 2010\Projects\DataMining_TA\DataMining_TA\obj\x86\Debug\ResolveAssemblyReference.cache
+c:\users\3nc\documents\visual studio 2010\Projects\DataMining_TA\DataMining_TA\obj\x86\Debug\DataMining_TA.Properties.Resources.resources
+c:\users\3nc\documents\visual studio 2010\Projects\DataMining_TA\DataMining_TA\obj\x86\Debug\GenerateResource.read.1.tlog
+c:\users\3nc\documents\visual studio 2010\Projects\DataMining_TA\DataMining_TA\obj\x86\Debug\GenerateResource.write.1.tlog
+c:\users\3nc\documents\visual studio 2010\Projects\DataMining_TA\DataMining_TA\obj\x86\Debug\DataMining_TA.exe
+c:\users\3nc\documents\visual studio 2010\Projects\DataMining_TA\DataMining_TA\obj\x86\Debug\DataMining_TA.pdb
