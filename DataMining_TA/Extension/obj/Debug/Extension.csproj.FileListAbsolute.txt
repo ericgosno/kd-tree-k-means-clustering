@@ -1,0 +1,5 @@
+c:\users\3nc\documents\visual studio 2010\Projects\DataMining_TA\Extension\bin\Debug\Extension.dll
+c:\users\3nc\documents\visual studio 2010\Projects\DataMining_TA\Extension\bin\Debug\Extension.pdb
+c:\users\3nc\documents\visual studio 2010\Projects\DataMining_TA\Extension\obj\Debug\ResolveAssemblyReference.cache
+c:\users\3nc\documents\visual studio 2010\Projects\DataMining_TA\Extension\obj\Debug\Extension.dll
+c:\users\3nc\documents\visual studio 2010\Projects\DataMining_TA\Extension\obj\Debug\Extension.pdb
