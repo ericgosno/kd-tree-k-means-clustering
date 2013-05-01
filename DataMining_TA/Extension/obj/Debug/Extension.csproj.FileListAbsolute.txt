@@ -3,3 +3,8 @@ c:\users\3nc\documents\visual studio 2010\Projects\DataMining_TA\Extension\bin\D
 c:\users\3nc\documents\visual studio 2010\Projects\DataMining_TA\Extension\obj\Debug\ResolveAssemblyReference.cache
 c:\users\3nc\documents\visual studio 2010\Projects\DataMining_TA\Extension\obj\Debug\Extension.dll
 c:\users\3nc\documents\visual studio 2010\Projects\DataMining_TA\Extension\obj\Debug\Extension.pdb
+C:\Users\3nc\Documents\Visual Studio 2010\Projects\TA SVN\DataMining_TA\Extension\bin\Debug\Extension.dll
+C:\Users\3nc\Documents\Visual Studio 2010\Projects\TA SVN\DataMining_TA\Extension\bin\Debug\Extension.pdb
+C:\Users\3nc\Documents\Visual Studio 2010\Projects\TA SVN\DataMining_TA\Extension\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\3nc\Documents\Visual Studio 2010\Projects\TA SVN\DataMining_TA\Extension\obj\Debug\Extension.dll
+C:\Users\3nc\Documents\Visual Studio 2010\Projects\TA SVN\DataMining_TA\Extension\obj\Debug\Extension.pdb

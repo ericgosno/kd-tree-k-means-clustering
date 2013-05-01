@@ -10,28 +10,30 @@ namespace K_D_Tree
 {
     public class KDTree
     {
-        List<Row> listRow;
         Node root;
-        List<Variables> listVariables;
+        Dataset dataset;
         int maxPointInLeaf;
+
         ISeparator separateMethod;
         List<Leaf> listBucketLeaf;
 
         #region public_properties
-        public List<Row> ListRow
+        public int MaxPointInLeaf
         {
-            get { return listRow; }
-            set { listRow = value; }
+          get { return maxPointInLeaf; }
+          set { maxPointInLeaf = value; }
         }
+
+        public Dataset Dataset
+        {
+            get { return dataset; }
+            set { dataset = value; }
+        }
+
         public Node Root
         {
             get { return root; }
             set { root = value; }
-        }
-        public List<Variables> ListVariables
-        {
-            get { return listVariables; }
-            set { listVariables = value; }
         }
         public List<Leaf> ListBucketLeaf
         {
@@ -42,29 +44,26 @@ namespace K_D_Tree
 
         public KDTree()
         {
-            listVariables = new List<Variables>();
-            listRow = new List<Row>();
+            this.dataset = new Dataset();
             listBucketLeaf = new List<Leaf>();
             root = null;
-            maxPointInLeaf = 1;
+            this.maxPointInLeaf = 1;
             // Default Separator Method
             separateMethod = new MedianBFPRTSeparator();
         }
 
-        public KDTree(List<Row> listRow, List<Variables> listVariables,int maxPointInLeaf)
+        public KDTree(Dataset dataset,int maxPointInLeaf)
         {
-            this.listRow = listRow;
-            this.listVariables = listVariables;
+            this.dataset = dataset;
             this.root = null;
             this.maxPointInLeaf = maxPointInLeaf;
             // Default Separator Method
             this.separateMethod = new MedianBFPRTSeparator();
         }
 
-        public KDTree(List<Row> listRow, List<Variables> listVariables, int maxPointInLeaf,ISeparator separatorMethod)
+        public KDTree(Dataset dataset, int maxPointInLeaf,ISeparator separatorMethod)
         {
-            this.listRow = listRow;
-            this.listVariables = listVariables;
+            this.dataset = dataset;
             this.root = null;
             this.maxPointInLeaf = maxPointInLeaf;
             this.separateMethod = separatorMethod;
@@ -75,13 +74,13 @@ namespace K_D_Tree
             root = new Node(0);
             Row lowerBound = new Row();
             Row upperBound = new Row();
-            for (int i = 0; i < listVariables.Count; i++)
+            for (int i = 0; i < dataset.InputVariables.Count; i++)
             {
-                double lower = (listVariables[i].LimitVariables.Key < (double)int.MaxValue) ? listVariables[i].LimitVariables.Key : 0.0;
-                double upper = (listVariables[i].LimitVariables.Value > (double)int.MinValue) ? listVariables[i].LimitVariables.Value : 0.0;
-                Cell low = new Cell(listVariables[i],listVariables[i].LimitVariables.Key);
+                double lower = (dataset.InputVariables[i].LimitVariables.Key < (double)int.MaxValue) ? dataset.InputVariables[i].LimitVariables.Key : 0.0;
+                double upper = (dataset.InputVariables[i].LimitVariables.Value > (double)int.MinValue) ? dataset.InputVariables[i].LimitVariables.Value : 0.0;
+                Cell low = new Cell(dataset.InputVariables[i],dataset.InputVariables[i].LimitVariables.Key);
                 lowerBound.InputValue.Add(low.VarCell, low);
-                Cell up = new Cell(listVariables[i], listVariables[i].LimitVariables.Value);
+                Cell up = new Cell(dataset.InputVariables[i], dataset.InputVariables[i].LimitVariables.Value);
                 upperBound.InputValue.Add(up.VarCell, up);
             }
             root.LowerBound = lowerBound;
@@ -93,11 +92,11 @@ namespace K_D_Tree
             root = new Leaf(0, rows);
             Row lowerBound = new Row();
             Row upperBound = new Row();
-            for (int i = 0; i < listVariables.Count; i++)
+            for (int i = 0; i < dataset.InputVariables.Count; i++)
             {
-                Cell low = new Cell(listVariables[i], listVariables[i].LimitVariables.Key);
+                Cell low = new Cell(dataset.InputVariables[i], dataset.InputVariables[i].LimitVariables.Key);
                 lowerBound.InputValue.Add(low.VarCell, low);
-                Cell up = new Cell(listVariables[i], listVariables[i].LimitVariables.Value);
+                Cell up = new Cell(dataset.InputVariables[i], dataset.InputVariables[i].LimitVariables.Value);
                 upperBound.InputValue.Add(up.VarCell, up);
             }
             root.LowerBound = lowerBound;
@@ -107,7 +106,7 @@ namespace K_D_Tree
 
         private void RecursiveRun(List<Row> pointList, int depth,Node nodeNow)
         {
-            nodeNow.PivotVariable = listVariables[depth % listVariables.Count];
+            nodeNow.PivotVariable = dataset.InputVariables[depth % dataset.InputVariables.Count];
             nodeNow.Depth = depth;
             // Find Median 
             List<double> listNum = new List<double>();
@@ -200,29 +199,27 @@ namespace K_D_Tree
 
         public void Run()
         {
-            if (listRow == null || listVariables == null ||  listRow.Count <= 0 || listVariables.Count <= 0)
+            if (dataset.ListRow == null || dataset.InputVariables == null ||  dataset.ListRow.Count <= 0 || dataset.InputVariables.Count <= 0)
                 return;
-            if (listRow.Count <= maxPointInLeaf)
+            if (dataset.ListRow.Count <= maxPointInLeaf)
             {
-                CreateRootLeaf(listRow);
+                CreateRootLeaf(dataset.ListRow);
                 return;
             }
             CreateRoot();
-            RecursiveRun(this.listRow, 0, this.root);
+            RecursiveRun(this.dataset.ListRow, 0, this.root);
         }
 
-        public void Run(List<Row> listRow, List<Variables> listVariables, int maxPointInLeaf)
+        public void Run(Dataset dataset, int maxPointInLeaf)
         {
-            this.listRow = listRow;
-            this.listVariables = listVariables;
+            this.dataset = dataset;
             this.maxPointInLeaf = maxPointInLeaf;
             this.Run();
         }
 
-        public void Run(List<Row> listRow, List<Variables> listVariables, int maxPointInLeaf, ISeparator separatorMethod)
+        public void Run(Dataset dataset, int maxPointInLeaf, ISeparator separatorMethod)
         {
-            this.listRow = listRow;
-            this.listVariables = listVariables;
+            this.dataset = dataset;
             this.maxPointInLeaf = maxPointInLeaf;
             this.separateMethod = separatorMethod;
             this.Run();
@@ -236,17 +233,15 @@ namespace K_D_Tree
             sw.Stop();
             return elapsedTime;
         }
-        public long RunWithTime(List<Row> listRow, List<Variables> listVariables, int maxPointInLeaf)
+        public long RunWithTime(Dataset dataset, int maxPointInLeaf)
         {
-            this.listRow = listRow;
-            this.listVariables = listVariables;
+            this.dataset = dataset;
             this.maxPointInLeaf = maxPointInLeaf;
             return this.RunWithTime();
         }
-        public long RunWithTime(List<Row> listRow, List<Variables> listVariables, int maxPointInLeaf, ISeparator separatorMethod)
+        public long RunWithTime(Dataset dataset, int maxPointInLeaf, ISeparator separatorMethod)
         {
-            this.listRow = listRow;
-            this.listVariables = listVariables;
+            this.dataset = dataset;
             this.maxPointInLeaf = maxPointInLeaf;
             this.separateMethod = separatorMethod;
             return this.RunWithTime();

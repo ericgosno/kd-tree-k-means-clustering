@@ -11,8 +11,7 @@ namespace Clustering
     {
         private int numCluster;
         private List<Cluster> clusters;
-        private List<Variables> listVariables;
-        private List<Row> listRow;
+        private Dataset dataset;
         private int numRep;
         private Random rnd;
         private const double EPSILON = 1e-6;
@@ -32,17 +31,10 @@ namespace Clustering
           set { clusters = value; }
         }
 
-
-        public List<Row> ListRow
+        public Dataset Dataset
         {
-          get { return listRow; }
-          set { listRow = value; }
-        }
-
-        public List<Variables> ListVariables
-        {
-          get { return listVariables; }
-          set { listVariables = value; }
+            get { return dataset; }
+            set { dataset = value; }
         }
 
         public bool IsNormalize
@@ -75,34 +67,30 @@ namespace Clustering
             this.numCluster = 10;
             this.numRep = 1000;
             this.clusters = new List<Cluster>();
-            this.listVariables = new List<Variables>();
-            this.listRow = new List<Row>();
             this.rnd = new Random();
             isNormalize = false;
             initializationMethod = new KDTreeAlgorithm(numCluster, false);
         }
-        public ClusteringKMeans(int numCluster, int numRep, bool isNormalized, ref Random rnd, List<Row> listRow, List<Variables> listVariables,IClusteringInitialization initializationMethod)
+        public ClusteringKMeans(int numCluster, int numRep, bool isNormalized, ref Random rnd, Dataset dataset,IClusteringInitialization initializationMethod)
         {
             this.numCluster = numCluster;
             this.numRep = numRep;
             this.clusters = new List<Cluster>();
             this.rnd = rnd;
             this.isNormalize = isNormalized;
-            this.listVariables = listVariables;
-            this.listRow = listRow;
+            this.dataset = dataset;
             this.initializationMethod = initializationMethod;
         }
 
-        public ClusteringKMeans(int numCluster, int numRep, bool isNormalized, ref Random rnd, List<Row> listRow, List<Variables> listVariables)
+        public ClusteringKMeans(int numCluster, int numRep, bool isNormalized, ref Random rnd, Dataset dataset)
         {
             this.numCluster = numCluster;
             this.numRep = numRep;
             this.clusters = new List<Cluster>();
             this.rnd = rnd;
             this.isNormalize = isNormalized;
-            this.listVariables = listVariables;
-            this.listRow = listRow;
-            this.initializationMethod = new KDTreeAlgorithm(numCluster, listRow, false, listVariables);
+            this.dataset = dataset;
+            this.initializationMethod = new KDTreeAlgorithm(numCluster, dataset, false);
         }
         public ClusteringKMeans(int numCluster, int numRep, bool isNormalized, ref Random rnd,IClusteringInitialization initializationMethod)
         {
@@ -175,26 +163,23 @@ namespace Clustering
 
         private ClusteringResult RunKMeansClustering()
         {
-            if (listRow.Count <= 0)
+            if (dataset.ListRow.Count <= 0)
             {
                 return null;
             }
             clusters = new List<Cluster>();
-            List<Row> Examples = new List<Row>();
-            for (int i = 0; i < listRow.Count; i++)
-            {
-                Examples.Add(listRow[i].Copy());
-            }
+
+            Dataset tmpDataset = dataset.Copy();
 
             if (isNormalize)
             {
                 // Normalize
-                for (int i = 0; i < Examples.Count; i++)
+                for (int i = 0; i < tmpDataset.ListRow.Count; i++)
                 {
-                    foreach(Variables j in Examples[i].InputValue.Keys)
+                    foreach(Variables j in tmpDataset.ListRow[i].InputValue.Keys)
                     {
-                        KeyValuePair<double, double> limit = Examples[i].InputValue[j].VarCell.LimitVariables;
-                        Examples[i].InputValue[j].ValueCell = (Convert.ToDouble(Examples[i].InputValue[j].ValueCell) - limit.Key) / (limit.Value - limit.Key);
+                        KeyValuePair<double, double> limit = tmpDataset.ListRow[i].InputValue[j].VarCell.LimitVariables;
+                        tmpDataset.ListRow[i].InputValue[j].ValueCell = (Convert.ToDouble(tmpDataset.ListRow[i].InputValue[j].ValueCell) - limit.Key) / (limit.Value - limit.Key);
                     }
                 }
             }
@@ -202,7 +187,7 @@ namespace Clustering
             //Console.WriteLine("Number Cluster = " + numCluster.ToString());
             //Console.WriteLine("Number Epoch = " + numRep.ToString());
 
-            List<Row> listCentroid = initializationMethod.Run(Examples, numCluster);
+            List<Row> listCentroid = initializationMethod.Run(tmpDataset, numCluster);
             for (int i = 0; i < listCentroid.Count; i++)
             {
                 clusters.Add(new Cluster(listCentroid[i]));
@@ -211,7 +196,7 @@ namespace Clustering
             int lastRep = numRep;
             for (int i = 0; i < numRep; i++)
             {
-                if (!KMeanRep(Examples))
+                if (!KMeanRep(tmpDataset.ListRow))
                 {
                     lastRep = i+1;
                     //Console.WriteLine("Finished at Repetition #" + (i + 1).ToString());
@@ -245,10 +230,9 @@ namespace Clustering
             return ans;
         }
 
-        public ClusteringResult Run(List<Row> listRow, List<Variables> listVariables, int numCluster, bool isNormalize)
+        public ClusteringResult Run(Dataset dataset, int numCluster, bool isNormalize)
         {
-            this.listRow = listRow;
-            this.listVariables = listVariables;
+            this.Dataset = dataset;
             this.numCluster = numCluster;
             this.isNormalize = isNormalize;
             return this.Run();

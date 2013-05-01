@@ -9,3 +9,14 @@ C:\Users\3nc\documents\visual studio 2010\Projects\DataMining_TA\DebuggerConsole
 C:\Users\3nc\documents\visual studio 2010\Projects\DataMining_TA\DebuggerConsole\obj\x86\Debug\ResolveAssemblyReference.cache
 C:\Users\3nc\documents\visual studio 2010\Projects\DataMining_TA\DebuggerConsole\obj\x86\Debug\DebuggerConsole.exe
 C:\Users\3nc\documents\visual studio 2010\Projects\DataMining_TA\DebuggerConsole\obj\x86\Debug\DebuggerConsole.pdb
+C:\Users\3nc\Documents\Visual Studio 2010\Projects\TA SVN\DataMining_TA\DebuggerConsole\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\3nc\Documents\Visual Studio 2010\Projects\TA SVN\DataMining_TA\DebuggerConsole\bin\Debug\DebuggerConsole.exe
+C:\Users\3nc\Documents\Visual Studio 2010\Projects\TA SVN\DataMining_TA\DebuggerConsole\bin\Debug\DebuggerConsole.pdb
+C:\Users\3nc\Documents\Visual Studio 2010\Projects\TA SVN\DataMining_TA\DebuggerConsole\bin\Debug\Clustering.dll
+C:\Users\3nc\Documents\Visual Studio 2010\Projects\TA SVN\DataMining_TA\DebuggerConsole\bin\Debug\Extension.dll
+C:\Users\3nc\Documents\Visual Studio 2010\Projects\TA SVN\DataMining_TA\DebuggerConsole\bin\Debug\K-D Tree.dll
+C:\Users\3nc\Documents\Visual Studio 2010\Projects\TA SVN\DataMining_TA\DebuggerConsole\bin\Debug\Clustering.pdb
+C:\Users\3nc\Documents\Visual Studio 2010\Projects\TA SVN\DataMining_TA\DebuggerConsole\bin\Debug\Extension.pdb
+C:\Users\3nc\Documents\Visual Studio 2010\Projects\TA SVN\DataMining_TA\DebuggerConsole\bin\Debug\K-D Tree.pdb
+C:\Users\3nc\Documents\Visual Studio 2010\Projects\TA SVN\DataMining_TA\DebuggerConsole\obj\x86\Debug\DebuggerConsole.exe
+C:\Users\3nc\Documents\Visual Studio 2010\Projects\TA SVN\DataMining_TA\DebuggerConsole\obj\x86\Debug\DebuggerConsole.pdb

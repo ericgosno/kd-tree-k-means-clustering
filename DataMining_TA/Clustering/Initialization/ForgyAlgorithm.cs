@@ -10,9 +10,10 @@ namespace Clustering.Initialization
     public class ForgyAlgorithm : IClusteringInitialization
     {
         int numK;
-        List<Row> dataset;
+        Dataset dataset;
 
-        public List<Row> Dataset
+        #region public_properties
+        public Dataset Dataset
         {
             get { return dataset; }
             set { dataset = value; }
@@ -22,53 +23,54 @@ namespace Clustering.Initialization
           get { return numK; }
           set { numK = value; }
         }
+        #endregion
+
+        #region constructor
         public ForgyAlgorithm()
         {
             numK = 0;
-            dataset = new List<Row>();
+            dataset = new Dataset();
         }
 
         public ForgyAlgorithm(int numK)
         {
             this.numK = numK;
-            this.dataset = new List<Row>();
+            this.dataset = new Dataset();
         }
 
-        public ForgyAlgorithm(int numK, List<Row> dataset)
+        public ForgyAlgorithm(int numK, Dataset dataset)
         {
             this.numK = numK;
             this.dataset = dataset;
         }
+        #endregion
 
         public List<Row> Run()
         {
-            if (numK <= 0 || dataset.Count <= 0 || dataset.Count < numK)
+            if (numK <= 0 || dataset.ListRow.Count <= 0 || dataset.ListRow.Count < numK)
             {
                 return null;
             }
-            List<Row> tmpRow = new List<Row>();
-            for(int i = 0;i < dataset.Count;i++)
-            {
-                tmpRow.Add(dataset[i].Copy());
-            }
+
+            Dataset tmpDataset = dataset.Copy();
             List<Row> centroid = new List<Row>();
             Random rnd = new Random(DateTime.Now.Millisecond);
             for (int i = 0; i < numK; i++)
             {
-                int nows = rnd.Next(tmpRow.Count);
-                centroid.Add(tmpRow[nows].Copy());
-                tmpRow.Remove(tmpRow[nows]);
+                int nows = rnd.Next(tmpDataset.ListRow.Count);
+                centroid.Add(tmpDataset.ListRow[nows].Copy());
+                tmpDataset.ListRow.Remove(tmpDataset.ListRow[nows]);
             }
             return centroid;
         }
-        public List<Row> Run(List<Row> dataset, int K)
+        public List<Row> Run(Dataset dataset, int K)
         {
             this.numK = K;
             this.dataset = dataset;
             return this.Run();
         }
 
-        public KeyValuePair<List<Row>, long> RunWithTime(List<Row> dataset, int K)
+        public KeyValuePair<List<Row>, long> RunWithTime(Dataset dataset, int K)
         {
             this.numK = K;
             this.dataset = dataset;
