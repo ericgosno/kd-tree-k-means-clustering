@@ -69,7 +69,7 @@ namespace Clustering
             this.clusters = new List<Cluster>();
             this.rnd = new Random();
             isNormalize = false;
-            initializationMethod = new KDTreeAlgorithm(numCluster, false);
+            initializationMethod = new KDTreeAlgorithm(numCluster, false,false);
         }
         public ClusteringKMeans(int numCluster, int numRep, bool isNormalized, ref Random rnd, Dataset dataset,IClusteringInitialization initializationMethod)
         {
@@ -90,7 +90,7 @@ namespace Clustering
             this.rnd = rnd;
             this.isNormalize = isNormalized;
             this.dataset = dataset;
-            this.initializationMethod = new KDTreeAlgorithm(numCluster, dataset, false);
+            this.initializationMethod = new KDTreeAlgorithm(numCluster, dataset, false,false);
         }
         public ClusteringKMeans(int numCluster, int numRep, bool isNormalized, ref Random rnd,IClusteringInitialization initializationMethod)
         {

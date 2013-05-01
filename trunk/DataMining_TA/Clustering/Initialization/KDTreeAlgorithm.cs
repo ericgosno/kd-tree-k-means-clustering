@@ -13,6 +13,8 @@ namespace Clustering.Initialization
         int numK;
         Dataset dataset;
         bool useOutlierRemoval;
+        bool useDensityRank;
+
 
         #region public_properties
         public bool UseOutlierRemoval
@@ -20,7 +22,11 @@ namespace Clustering.Initialization
             get { return useOutlierRemoval; }
             set { useOutlierRemoval = value; }
         }
-
+        public bool UseDensityRank
+        {
+            get { return useDensityRank; }
+            set { useDensityRank = value; }
+        }
         public int NumK
         {
           get { return numK; }
@@ -33,26 +39,31 @@ namespace Clustering.Initialization
         }
         #endregion
 
+        #region Constructor
         public KDTreeAlgorithm()
         {
             this.numK = 0;
             this.dataset = new Dataset();
             this.useOutlierRemoval = false;
+            this.useDensityRank = false;
         }
 
-        public KDTreeAlgorithm(int numK, bool useOutlierRemoval)
+        public KDTreeAlgorithm(int numK, bool useOutlierRemoval,bool useDensityRank)
         {
             this.numK = numK;
             this.dataset = new Dataset();
             this.useOutlierRemoval = useOutlierRemoval;
+            this.useDensityRank = useDensityRank;
         }
 
-        public KDTreeAlgorithm(int numK, Dataset dataset,bool useOutlierRemoval)
+        public KDTreeAlgorithm(int numK, Dataset dataset,bool useOutlierRemoval, bool useDensityRank)
         {
             this.numK = numK;
             this.dataset = dataset;
             this.useOutlierRemoval = useOutlierRemoval;
+            this.useDensityRank = useDensityRank;
         }
+        #endregion
 
         public List<Row> Run()
         {
@@ -73,11 +84,13 @@ namespace Clustering.Initialization
             // Use Density Rank Instead of using Density Estimate
             leafBucket.Sort((t1, t2) => t2.Density.CompareTo(t1.Density));
             Dictionary<Leaf, double> rank = new Dictionary<Leaf, double>();
+            if(useDensityRank)
+            {
             for (int i = 0; i < leafBucket.Count; i++)
             {
                 rank[leafBucket[i]] = leafBucket.Count - i;
             }
-
+                }
             int x = leafBucket.Count;
             // Outlier Removal(if useOutlierRemoval == true)
             int NumRemoval = leafBucket.Count / 5;
@@ -130,7 +143,7 @@ namespace Clustering.Initialization
                         }
 
                         // use rank instead of density estimates
-                        double density = leafBucket[j].Density;//rank[leafBucket[j]];
+                        double density = useDensityRank ? rank[leafBucket[j]] : leafBucket[j].Density;//rank[leafBucket[j]];
                         double valG = minDistance * density;
                         if (MaxLeafValue.Key < valG)
                         {
