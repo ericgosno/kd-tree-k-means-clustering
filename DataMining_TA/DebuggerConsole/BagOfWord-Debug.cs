@@ -99,7 +99,7 @@ namespace DebuggerConsole
             Console.WriteLine("Finish Read document!");
             Random rnd = new Random();
 
-            Dataset dataset = new Dataset(listRow, listVariables, new List<Variables>());
+            Dataset dataset = new Dataset("Bag of Word Dataset", listRow, listVariables, new List<Variables>());
             IClustering clusterMethod = new ClusteringKMeans(10, 1000, false, ref rnd, dataset);
             ClusteringResult clusters = clusterMethod.Run();
             List<string> report = clusterMethod.PrintClusterResult(clusters);

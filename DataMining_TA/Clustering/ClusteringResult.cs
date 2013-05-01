@@ -8,6 +8,7 @@ namespace Clustering
 {
     public class ClusteringResult
     {
+        private Dataset dataset;
         private List<Cluster> clusters;
         private int numRep;
         private long runningTime;
@@ -18,7 +19,11 @@ namespace Clustering
             get { return clusters; }
             set { clusters = value; }
         }
-
+        public Dataset Dataset
+        {
+            get { return dataset; }
+            set { dataset = value; }
+        }
 
         public int NumRep
         {
@@ -39,17 +44,19 @@ namespace Clustering
             this.clusters = new List<Cluster>();
         }
 
-        public ClusteringResult(List<Cluster> clusters, int numRep)
+        public ClusteringResult(Dataset dataset,List<Cluster> clusters, int numRep)
         {
             this.clusters = clusters;
             this.numRep = numRep;
+            this.dataset = dataset;
         }
 
-        public ClusteringResult(List<Cluster> clusters, int numRep,long runningTime)
+        public ClusteringResult(Dataset dataset,List<Cluster> clusters, int numRep,long runningTime)
         {
             this.clusters = clusters;
             this.numRep = numRep;
             this.runningTime = runningTime;
+            this.dataset = dataset;
         }
 
         #endregion

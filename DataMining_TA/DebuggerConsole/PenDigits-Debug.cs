@@ -79,7 +79,7 @@ namespace DebuggerConsole
             Random rnd = new Random();
 
 
-            Dataset dataset = new Dataset(listRow, inputVariables, outputVariables);
+            Dataset dataset = new Dataset("Pen Digits Dataset",listRow, inputVariables, outputVariables);
 
             IClustering clusterMethod = new ClusteringKMeans(10, 1000, false, ref rnd, dataset);
             ClusteringResult clusters = clusterMethod.Run();
