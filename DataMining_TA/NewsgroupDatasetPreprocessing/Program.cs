@@ -103,7 +103,12 @@ namespace NewsgroupDatasetPreprocessing
             }
 
             vocab.Sort();
-            System.IO.File.WriteAllLines(base_url + @"vocab_newsgroup.txt", vocab);
+            List<string> vocabOutput = new List<string>();
+            for (int i = 0; i < vocab.Count; i++)
+            {
+                vocabOutput.Add(vocab[i] + " " + vocabDict[vocab[i]].Key.ToString() + " " + vocabDict[vocab[i]].Value.ToString());
+            }
+            System.IO.File.WriteAllLines(base_url + @"vocab_newsgroup.txt", vocabOutput);
             List<String> report = new List<string>();
             for (int i = 1; i <= titleDoc.Count; i++)
             {
