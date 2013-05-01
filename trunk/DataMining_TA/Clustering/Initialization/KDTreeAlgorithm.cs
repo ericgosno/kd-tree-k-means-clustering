@@ -11,17 +11,10 @@ namespace Clustering.Initialization
     public class KDTreeAlgorithm : IClusteringInitialization
     {
         int numK;
-        List<Row> dataset;
+        Dataset dataset;
         bool useOutlierRemoval;
-        List<Variables> listVariables;
 
         #region public_properties
-        public List<Variables> ListVariables
-        {
-            get { return listVariables; }
-            set { listVariables = value; }
-        }
-
         public bool UseOutlierRemoval
         {
             get { return useOutlierRemoval; }
@@ -33,7 +26,7 @@ namespace Clustering.Initialization
           get { return numK; }
           set { numK = value; }
         }
-        public List<Row> Dataset
+        public Dataset Dataset
         {
             get { return dataset; }
             set { dataset = value; }
@@ -43,42 +36,37 @@ namespace Clustering.Initialization
         public KDTreeAlgorithm()
         {
             this.numK = 0;
-            this.dataset = new List<Row>();
+            this.dataset = new Dataset();
             this.useOutlierRemoval = false;
-            this.listVariables = new List<Variables>();
         }
 
         public KDTreeAlgorithm(int numK, bool useOutlierRemoval)
         {
             this.numK = numK;
-            this.dataset = new List<Row>();
-            this.listVariables = new List<Variables>();
+            this.dataset = new Dataset();
             this.useOutlierRemoval = useOutlierRemoval;
         }
 
-        public KDTreeAlgorithm(int numK, List<Row> dataset,bool useOutlierRemoval, List<Variables> listVariables)
+        public KDTreeAlgorithm(int numK, Dataset dataset,bool useOutlierRemoval)
         {
             this.numK = numK;
             this.dataset = dataset;
             this.useOutlierRemoval = useOutlierRemoval;
-            this.listVariables = listVariables;
         }
 
         public List<Row> Run()
         {
-            /*if (numK <= 0 || dataset.Count <= 0 || dataset.Count < numK)
+            if (numK <= 0 || dataset.ListRow.Count <= 0 || dataset.ListRow.Count < numK)
             {
                 return null;
-            }*/
-            List<Row> tmpRow = new List<Row>();
-            for(int i = 0;i < dataset.Count;i++)
-            {
-                tmpRow.Add(dataset[i].Copy());
             }
+
+
+            Dataset tmpDataset = dataset.Copy();
             List<Row> centroid = new List<Row>();
             // Algorithm start here
             // Build KD-Tree
-            KDTree kdtree = new KDTree(dataset, listVariables, dataset.Count / (10 * numK));
+            KDTree kdtree = new KDTree(tmpDataset, tmpDataset.ListRow.Count / (10 * numK));
             kdtree.Run();
             List<Leaf> leafBucket = kdtree.TraceLeafBucket();
             
@@ -142,7 +130,7 @@ namespace Clustering.Initialization
                         }
 
                         // use rank instead of density estimates
-                        double density = rank[leafBucket[j]];//leafBucket[j].Density;
+                        double density = leafBucket[j].Density;//rank[leafBucket[j]];
                         double valG = minDistance * density;
                         if (MaxLeafValue.Key < valG)
                         {
@@ -156,7 +144,7 @@ namespace Clustering.Initialization
             return centroid;
         }
 
-        public List<Row> Run(List<Row> dataset, int K)
+        public List<Row> Run(Dataset dataset, int K)
         {
             this.numK = K;
             this.dataset = dataset;
@@ -170,7 +158,7 @@ namespace Clustering.Initialization
             long elapsedTime = sw.ElapsedMilliseconds;
             return new KeyValuePair<List<Row>, long>(ans, elapsedTime); 
         }
-        public KeyValuePair<List<Row>, long> RunWithTime(List<Row> dataset, int K)
+        public KeyValuePair<List<Row>, long> RunWithTime(Dataset dataset, int K)
         {
             this.dataset = dataset;
             this.numK = K;

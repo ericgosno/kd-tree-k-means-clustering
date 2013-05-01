@@ -99,14 +99,15 @@ namespace DebuggerConsole
             Console.WriteLine("Finish Read document!");
             Random rnd = new Random();
 
-            IClustering clusterMethod = new ClusteringKMeans(10, 1000, false, ref rnd, listRow, listVariables);
+            Dataset dataset = new Dataset(listRow, listVariables, new List<Variables>());
+            IClustering clusterMethod = new ClusteringKMeans(10, 1000, false, ref rnd, dataset);
             ClusteringResult clusters = clusterMethod.Run();
             List<string> report = clusterMethod.PrintClusterResult(clusters);
             for (int i = 0; i < report.Count; i++) Console.WriteLine(report[i]);
             System.IO.File.WriteAllLines(base_url + @"output.txt", report);
 
 
-            IClustering clusterMethod2 = new ClusteringKMeans(10, 1000, false, ref rnd, listRow, listVariables, new ForgyAlgorithm(10, listRow));
+            IClustering clusterMethod2 = new ClusteringKMeans(10, 1000, false, ref rnd, dataset, new ForgyAlgorithm(10, dataset));
             ClusteringResult clusters2 = clusterMethod2.Run();
             List<string> report2 = clusterMethod2.PrintClusterResult(clusters2);
             for (int i = 0; i < report.Count; i++) Console.WriteLine(report2[i]);

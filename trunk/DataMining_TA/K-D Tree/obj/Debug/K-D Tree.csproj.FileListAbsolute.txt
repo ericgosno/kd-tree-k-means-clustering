@@ -5,3 +5,10 @@ C:\Users\3nc\documents\visual studio 2010\Projects\DataMining_TA\K-D Tree\bin\De
 C:\Users\3nc\documents\visual studio 2010\Projects\DataMining_TA\K-D Tree\obj\Debug\ResolveAssemblyReference.cache
 C:\Users\3nc\documents\visual studio 2010\Projects\DataMining_TA\K-D Tree\obj\Debug\K-D Tree.dll
 C:\Users\3nc\documents\visual studio 2010\Projects\DataMining_TA\K-D Tree\obj\Debug\K-D Tree.pdb
+C:\Users\3nc\Documents\Visual Studio 2010\Projects\TA SVN\DataMining_TA\K-D Tree\bin\Debug\K-D Tree.dll
+C:\Users\3nc\Documents\Visual Studio 2010\Projects\TA SVN\DataMining_TA\K-D Tree\bin\Debug\K-D Tree.pdb
+C:\Users\3nc\Documents\Visual Studio 2010\Projects\TA SVN\DataMining_TA\K-D Tree\bin\Debug\Extension.dll
+C:\Users\3nc\Documents\Visual Studio 2010\Projects\TA SVN\DataMining_TA\K-D Tree\bin\Debug\Extension.pdb
+C:\Users\3nc\Documents\Visual Studio 2010\Projects\TA SVN\DataMining_TA\K-D Tree\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\3nc\Documents\Visual Studio 2010\Projects\TA SVN\DataMining_TA\K-D Tree\obj\Debug\K-D Tree.dll
+C:\Users\3nc\Documents\Visual Studio 2010\Projects\TA SVN\DataMining_TA\K-D Tree\obj\Debug\K-D Tree.pdb

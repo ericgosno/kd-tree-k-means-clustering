@@ -3,3 +3,8 @@ C:\Users\3nc\documents\visual studio 2010\Projects\DataMining_TA\Stemmer\bin\Deb
 C:\Users\3nc\documents\visual studio 2010\Projects\DataMining_TA\Stemmer\obj\Debug\ResolveAssemblyReference.cache
 C:\Users\3nc\documents\visual studio 2010\Projects\DataMining_TA\Stemmer\obj\Debug\Stemmer.dll
 C:\Users\3nc\documents\visual studio 2010\Projects\DataMining_TA\Stemmer\obj\Debug\Stemmer.pdb
+C:\Users\3nc\Documents\Visual Studio 2010\Projects\TA SVN\DataMining_TA\Stemmer\bin\Debug\Stemmer.dll
+C:\Users\3nc\Documents\Visual Studio 2010\Projects\TA SVN\DataMining_TA\Stemmer\bin\Debug\Stemmer.pdb
+C:\Users\3nc\Documents\Visual Studio 2010\Projects\TA SVN\DataMining_TA\Stemmer\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\3nc\Documents\Visual Studio 2010\Projects\TA SVN\DataMining_TA\Stemmer\obj\Debug\Stemmer.dll
+C:\Users\3nc\Documents\Visual Studio 2010\Projects\TA SVN\DataMining_TA\Stemmer\obj\Debug\Stemmer.pdb

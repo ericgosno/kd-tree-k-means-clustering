@@ -73,13 +73,24 @@ namespace Clustering
                 ans.Add("Cluster#" + (i + 1).ToString() + " :");
                 ans.Add("SSE : " + clusters[i].calculateSSE().ToString());
                 ans.Add("Total Member : " + clusters[i].MemberCluster.Count.ToString());
+                Dictionary<string, int> clusterByOutput = new Dictionary<string, int>();
                 String nows = "Member : ";
                 for (int j = 0; j < clusters[i].MemberCluster.Count; j++)
                 {
-                    if (j != 0) nows += ";";
-                    nows += clusters[i].MemberCluster[j].RowIdentificator;
+                    //if (j != 0) nows += ";";
+                    //nows += clusters[i].MemberCluster[j].RowIdentificator;
+                    if (!clusterByOutput.ContainsKey(clusters[i].MemberCluster[j].RowIdentificator))
+                    {
+                        clusterByOutput[clusters[i].MemberCluster[j].RowIdentificator] = 0;
+                    }
+                    clusterByOutput[clusters[i].MemberCluster[j].RowIdentificator]++;
                 }
                 ans.Add(nows);
+                ans.Add("Classified by output : ");
+                foreach (string output in clusterByOutput.Keys)
+                {
+                    ans.Add(output + " : " + clusterByOutput[output].ToString());
+                }
             }
             ans.Add("========= End Cluster Detail ======");
             return ans;
