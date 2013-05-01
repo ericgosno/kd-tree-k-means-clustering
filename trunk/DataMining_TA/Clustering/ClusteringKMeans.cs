@@ -108,6 +108,7 @@ namespace Clustering
             List<string> ans = new List<string>();
             ans.Add("K-Means Clustering Algorithm");
             ClusteringResult result = (ClusteringResult)ClusterResult;
+            ans.AddRange(result.Dataset.PrintDetail());
             ans.Add("Number of Cluster = " + clusters.Count);
             ans.AddRange(initializationMethod.PrintDetail());
             ans.AddRange(result.PrintDetail());
@@ -214,7 +215,7 @@ namespace Clustering
             }
             clusters = anews;
 
-            ClusteringResult result = new ClusteringResult(clusters, lastRep);
+            ClusteringResult result = new ClusteringResult(dataset,clusters, lastRep);
             
             return result;
         }
