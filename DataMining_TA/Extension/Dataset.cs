@@ -11,9 +11,15 @@ namespace Extension
         private List<Variables> inputVariables;
         private List<Variables> outputVariables;
         private string titleDataset;
+        private bool isCalculatedFrequency;
 
 
         #region public_properties
+        public bool IsCalculatedFrequency
+        {
+            get { return isCalculatedFrequency; }
+            set { isCalculatedFrequency = value; }
+        }
         public string TitleDataset
         {
             get { return titleDataset; }
@@ -46,12 +52,14 @@ namespace Extension
             inputVariables = new List<Variables>();
             outputVariables = new List<Variables>();
             titleDataset = this.GetHashCode().ToString();
+            isCalculatedFrequency = false;
         }
         public Dataset(string title)
         {
             listRow = new List<Row>();
             inputVariables = new List<Variables>();
             outputVariables = new List<Variables>();
+            isCalculatedFrequency = false;
             this.titleDataset = title;            
         }
         public Dataset(string title,List<Row> listRow, List<Variables> inputVariables, List<Variables> outputVariables)
@@ -60,6 +68,14 @@ namespace Extension
             this.inputVariables = inputVariables;
             this.outputVariables = outputVariables;
             this.titleDataset = title;
+            this.isCalculatedFrequency = true;
+            for (int i = 0; i < inputVariables.Count; i++)
+            {
+                if (inputVariables[i].RowFrequency < 0 || inputVariables[i].TermFrequency < 0)
+                {
+                    this.isCalculatedFrequency = false;
+                }
+            }
         }
         public Dataset(Dataset another)
         {
@@ -68,6 +84,7 @@ namespace Extension
             this.inputVariables = news.InputVariables;
             this.outputVariables = news.OutputVariables;
             this.titleDataset = news.titleDataset;
+            this.isCalculatedFrequency = news.isCalculatedFrequency;
         }
         #endregion
 
@@ -76,6 +93,8 @@ namespace Extension
             Dataset news = new Dataset();
             news.InputVariables = this.inputVariables;
             news.outputVariables = this.outputVariables;
+            news.titleDataset = this.titleDataset;
+            news.isCalculatedFrequency = this.isCalculatedFrequency;
             for (int i = 0; i < this.listRow.Count; i++)
             {
                 news.listRow.Add(this.listRow[i].Copy());

@@ -20,7 +20,7 @@ namespace DebuggerConsole
             //Read Vocab
             FileStream fileStream = null;
             StreamReader streamReader = null;
-            string base_url = @"D:\tc\";
+            string base_url = @"E:\5109100153 - Eric\tc\";
             try
             {
                 fileStream = new FileStream(base_url + @"vocab.kos.txt", FileMode.Open);
@@ -74,7 +74,7 @@ namespace DebuggerConsole
                         listRow.Add(news);
                         //Console.WriteLine("Row #" + listRow.Count.ToString());
                     }
-                    listVariables[wordId].Frequency += countWord;
+                    listVariables[wordId].TermFrequency += countWord;
                     if (!listRow[docId - 1].InputValue.ContainsKey(listVariables[wordId]))
                     {
                         Cell news = new Cell(listVariables[wordId], countWord);

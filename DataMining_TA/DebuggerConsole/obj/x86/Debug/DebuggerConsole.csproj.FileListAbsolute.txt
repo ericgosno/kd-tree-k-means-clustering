@@ -20,3 +20,5 @@ C:\Users\3nc\Documents\Visual Studio 2010\Projects\TA SVN\DataMining_TA\Debugger
 C:\Users\3nc\Documents\Visual Studio 2010\Projects\TA SVN\DataMining_TA\DebuggerConsole\bin\Debug\K-D Tree.pdb
 C:\Users\3nc\Documents\Visual Studio 2010\Projects\TA SVN\DataMining_TA\DebuggerConsole\obj\x86\Debug\DebuggerConsole.exe
 C:\Users\3nc\Documents\Visual Studio 2010\Projects\TA SVN\DataMining_TA\DebuggerConsole\obj\x86\Debug\DebuggerConsole.pdb
+C:\Users\3nc\Documents\Visual Studio 2010\Projects\TA SVN\DataMining_TA\DebuggerConsole\bin\Debug\TFIDF.dll
+C:\Users\3nc\Documents\Visual Studio 2010\Projects\TA SVN\DataMining_TA\DebuggerConsole\bin\Debug\TFIDF.pdb
