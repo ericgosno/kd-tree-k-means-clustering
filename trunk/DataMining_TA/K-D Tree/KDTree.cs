@@ -55,6 +55,7 @@ namespace K_D_Tree
         public KDTree(Dataset dataset,int maxPointInLeaf)
         {
             this.dataset = dataset;
+            listBucketLeaf = new List<Leaf>();
             this.root = null;
             this.maxPointInLeaf = maxPointInLeaf;
             // Default Separator Method
@@ -64,6 +65,7 @@ namespace K_D_Tree
         public KDTree(Dataset dataset, int maxPointInLeaf,ISeparator separatorMethod)
         {
             this.dataset = dataset;
+            listBucketLeaf = new List<Leaf>();
             this.root = null;
             this.maxPointInLeaf = maxPointInLeaf;
             this.separateMethod = separatorMethod;
@@ -148,21 +150,29 @@ namespace K_D_Tree
             }
             // construct child
             Node leftChild = null;
-            if (leftRow.Count <= maxPointInLeaf && leftRow.Count > 0) leftChild = new Leaf(depth + 1, leftRow);
-            else if(leftRow.Count > 0) leftChild = new Node(depth + 1);
+            if (leftRow.Count <= maxPointInLeaf && leftRow.Count > 0)
+            {
+                leftChild = new Leaf(depth + 1, leftRow);
+                listBucketLeaf.Add(leftChild as Leaf);
+            }
+            else if (leftRow.Count > 0) leftChild = new Node(depth + 1);
             leftChild.LowerBound = nodeNow.LowerBound.Copy();
             leftChild.UpperBound = nodeNow.UpperBound.Copy();
             leftChild.UpperBound.InputValue[nodeNow.PivotVariable].ValueCell = nodeNow.PivotValue;
 
             Node rightChild = null;
-            if (rightRow.Count <= maxPointInLeaf && rightRow.Count > 0) rightChild = new Leaf(depth + 1, leftRow);
-            else if(rightRow.Count > 0) rightChild = new Node(depth + 1);
+            if (rightRow.Count <= maxPointInLeaf && rightRow.Count > 0)
+            {
+                rightChild = new Leaf(depth + 1, leftRow);
+                listBucketLeaf.Add(rightChild as Leaf);
+            }
+            else if (rightRow.Count > 0) rightChild = new Node(depth + 1);
             rightChild.LowerBound = nodeNow.LowerBound.Copy();
             rightChild.UpperBound = nodeNow.UpperBound.Copy();
             rightChild.LowerBound.InputValue[nodeNow.PivotVariable].ValueCell = nodeNow.PivotValue;
 
-            nodeNow.LeftChild = leftChild;
-            nodeNow.RightChild = rightChild;
+            //nodeNow.LeftChild = leftChild;
+            //nodeNow.RightChild = rightChild;
             if (leftRow.Count > maxPointInLeaf) 
                 RecursiveRun(leftRow, depth + 1, leftChild);
             if (rightRow.Count > maxPointInLeaf) 
@@ -201,6 +211,8 @@ namespace K_D_Tree
         {
             if (dataset.ListRow == null || dataset.InputVariables == null ||  dataset.ListRow.Count <= 0 || dataset.InputVariables.Count <= 0)
                 return;
+
+            this.listBucketLeaf = new List<Leaf>();
             if (dataset.ListRow.Count <= maxPointInLeaf)
             {
                 CreateRootLeaf(dataset.ListRow);

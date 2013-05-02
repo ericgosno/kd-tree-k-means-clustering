@@ -1,0 +1,7 @@
+C:\Users\3nc\Documents\Visual Studio 2010\Projects\TA SVN\DataMining_TA\TFIDF\bin\Debug\TFIDF.dll
+C:\Users\3nc\Documents\Visual Studio 2010\Projects\TA SVN\DataMining_TA\TFIDF\bin\Debug\TFIDF.pdb
+C:\Users\3nc\Documents\Visual Studio 2010\Projects\TA SVN\DataMining_TA\TFIDF\bin\Debug\Extension.dll
+C:\Users\3nc\Documents\Visual Studio 2010\Projects\TA SVN\DataMining_TA\TFIDF\bin\Debug\Extension.pdb
+C:\Users\3nc\Documents\Visual Studio 2010\Projects\TA SVN\DataMining_TA\TFIDF\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\3nc\Documents\Visual Studio 2010\Projects\TA SVN\DataMining_TA\TFIDF\obj\Debug\TFIDF.dll
+C:\Users\3nc\Documents\Visual Studio 2010\Projects\TA SVN\DataMining_TA\TFIDF\obj\Debug\TFIDF.pdb

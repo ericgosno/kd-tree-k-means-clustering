@@ -73,13 +73,14 @@ namespace Clustering.Initialization
             }
 
 
-            Dataset tmpDataset = dataset.Copy();
+            Dataset tmpDataset = this.dataset; //dataset.Copy();
             List<Row> centroid = new List<Row>();
             // Algorithm start here
             // Build KD-Tree
             KDTree kdtree = new KDTree(tmpDataset, tmpDataset.ListRow.Count / (10 * numK));
             kdtree.Run();
-            List<Leaf> leafBucket = kdtree.TraceLeafBucket();
+            List<Leaf> leafBucket = kdtree.ListBucketLeaf;
+            //List<Leaf> leafBucket = kdtree.TraceLeafBucket();
             
             // Use Density Rank Instead of using Density Estimate
             leafBucket.Sort((t1, t2) => t2.Density.CompareTo(t1.Density));

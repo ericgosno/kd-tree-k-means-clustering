@@ -92,12 +92,14 @@ namespace Clustering
                     }
                     clusterByOutput[clusters[i].MemberCluster[j].RowIdentificator]++;
                 }
+                /*
                 ans.Add(nows);
                 ans.Add("Classified by output : ");
                 foreach (string output in clusterByOutput.Keys)
                 {
                     ans.Add(output + " : " + clusterByOutput[output].ToString());
                 }
+                 */
             }
             ans.Add("========= End Cluster Detail ======");
             return ans;

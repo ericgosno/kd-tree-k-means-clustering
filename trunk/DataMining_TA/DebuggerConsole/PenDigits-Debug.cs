@@ -20,7 +20,7 @@ namespace DebuggerConsole
             //Read Vocab
             FileStream fileStream = null;
             StreamReader streamReader = null;
-            string base_url = @"D:\tc\";
+            string base_url = @"E:\5109100153 - Eric\tc\";
 
             for (int i = 0; i < 16; i++)
             {
