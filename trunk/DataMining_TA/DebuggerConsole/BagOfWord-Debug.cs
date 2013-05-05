@@ -28,7 +28,7 @@ namespace DebuggerConsole
                 while (true)
                 {
                     string line = streamReader.ReadLine();
-                    Variables news = new Variables(line);
+                    Variables news = new ContinueVariable(line);
                     listVariables.Add(news);
                     if (string.IsNullOrEmpty(line))
                         break;

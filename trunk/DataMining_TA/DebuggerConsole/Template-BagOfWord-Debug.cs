@@ -34,7 +34,7 @@ namespace DebuggerConsole
 
                     char[] separator = new char[1] { ' ' };
                     string[] linex = line.Split(separator);
-                    Variables news = new Variables(linex[0]);
+                    Variables news = new ContinueVariable(linex[0]);
 
                     try
                     {
@@ -66,26 +66,57 @@ namespace DebuggerConsole
                 int numOutput = Convert.ToInt32(line);
                 for (int i = 0; i < numOutput; i++)
                 {
-                    Variables news = new Variables();
-                    outputVariables.Add(news);
+                    line = streamReader.ReadLine();
+                    string[] linex = line.Split(new char[1] { ' ' });
+                    string nameVar = linex[0];
+                    string typeVar = linex[1];
+                    Variables news = null;
+                    if (typeVar == "CATEGORY")
+                    {
+                        CategoricalVariable news1 = new CategoricalVariable(nameVar);
+                        for (int j = 2; j < linex.Count(); j++)
+                        {
+                            news1.ParamVariables.Add(linex[j],j-1);
+                        }
+                        news = news1;
+                    }
+                    else if(typeVar == "NUMBER")
+                    {
+                        news = new DiscreetVariable(nameVar);
+                    }
+                    else if (typeVar == "CONTINUE")
+                    {
+                        news = new ContinueVariable(nameVar);
+                    }
+                    if(news != null)outputVariables.Add(news);
                 }
 
                 while (true)
                 {
                     line = streamReader.ReadLine();
+                    if (string.IsNullOrEmpty(line))
+                        break;
                     Row newRow = new Row(line);
                     for (int i = 0; i < numOutput; i++)
                     {
                         line = streamReader.ReadLine();
                         if (line != "null")
                         {
-                            Cell newCell = new Cell(outputVariables[i], line);
+                            object value = line;
+                            try
+                            {
+                                if(outputVariables[i] is CategoricalVariable)
+                                {
+                                    value = ((CategoricalVariable)outputVariables[i]).ParamVariables[line];
+                                }
+                            }
+                            catch(Exception ex) { }
+                            Cell newCell = new Cell(outputVariables[i], value);
                             newRow.OutputValue.Add(outputVariables[i], newCell);
                         }
                     }
                     listRow.Add(newRow);
-                    if (string.IsNullOrEmpty(line))
-                        break;
+
                 }
             }
             finally
@@ -146,6 +177,37 @@ namespace DebuggerConsole
             Dataset dataset = new Dataset("Newsgroup Dataset", listRow, inputVariables, outputVariables);
             TFIDF.TFIDF tfidf = new TFIDF.TFIDF();
             dataset = tfidf.Run(dataset);
+            Console.WriteLine("Finish TF-IDF");
+
+            List<string> buf;
+            /*
+            buf = dataset.PrintDatasetInputVariableDetail();
+            for (int i = 0; i < buf.Count; i++)
+            {
+                Console.WriteLine(buf[i]);
+                System.Threading.Thread.Sleep(1000);
+            }
+            buf.Clear();
+            Console.ReadLine();
+            
+            buf = dataset.PrintDatasetOutputVariableDetail();
+            for (int i = 0; i < buf.Count; i++)
+            {
+                Console.WriteLine(buf[i]);
+                System.Threading.Thread.Sleep(1000);
+            }
+            buf.Clear();
+            Console.ReadLine();
+            
+            buf = dataset.PrintDatasetRowDetail(false,true);
+            for (int i = 0; i < buf.Count; i++)
+            {
+                Console.WriteLine(buf[i]);
+                System.Threading.Thread.Sleep(50);
+            }
+            buf.Clear();
+            Console.ReadLine();
+            */
 
             IClustering clusterMethod = new ClusteringKMeans(10, 1000, false, ref rnd, dataset);
             ClusteringResult clusters = clusterMethod.Run();

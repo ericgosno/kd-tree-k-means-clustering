@@ -139,12 +139,20 @@ namespace TFIDF
             }
             Dataset tmpDataset = this.dataset;
             if(!tmpDataset.IsCalculatedFrequency)tmpDataset = CalculateFrequency(tmpDataset);
+
+            foreach (Variables var in dataset.InputVariables)
+            {
+                var.ResetLimitVariables();
+            }
+
             for (int i = 0; i < tmpDataset.ListRow.Count; i++)
             {
                 foreach(Variables var in tmpDataset.ListRow[i].InputValue.Keys)
                 {
                     int freq = Convert.ToInt32(tmpDataset.ListRow[i].InputValue[var].ValueCell);
-                    tmpDataset.ListRow[i].InputValue[var].ValueCell = (double)(methodTF.CalculateTermFrequency(freq) * methodIDF.CalculateInverseDocumentFrequency(tmpDataset.ListRow.Count, var.RowFrequency));
+                    double newValue =  (double)(methodTF.CalculateTermFrequency(freq) * methodIDF.CalculateInverseDocumentFrequency(tmpDataset.ListRow.Count, var.RowFrequency));
+                    tmpDataset.ListRow[i].InputValue[var].ValueCell = newValue;
+                    var.RescaleLimitVariables(newValue);
                 }
             }
             return tmpDataset;

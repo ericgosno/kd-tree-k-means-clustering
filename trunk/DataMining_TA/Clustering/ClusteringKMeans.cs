@@ -278,6 +278,7 @@ namespace Clustering
                 {
                     foreach(Variables j in tmpDataset.ListRow[i].InputValue.Keys)
                     {
+                        if (j is DiscreetVariable || j is CategoricalVariable) continue; 
                         KeyValuePair<double, double> limit = tmpDataset.ListRow[i].InputValue[j].VarCell.LimitVariables;
                         tmpDataset.ListRow[i].InputValue[j].ValueCell = (Convert.ToDouble(tmpDataset.ListRow[i].InputValue[j].ValueCell) - limit.Key) / (limit.Value - limit.Key);
                     }
