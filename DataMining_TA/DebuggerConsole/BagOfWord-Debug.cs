@@ -63,7 +63,7 @@ namespace DebuggerConsole
 
                     string[] linex = line.Split(separator);
                     int docId = Convert.ToInt32(linex[0]);
-                    int wordId = Convert.ToInt32(linex[1]);
+                    int wordId = Convert.ToInt32(linex[1]) - 1;
                     int countWord = Convert.ToInt32(linex[2]);
                     //Console.WriteLine(docId.ToString() + " " + wordId.ToString() + " " + countWord.ToString());
                     //System.Threading.Thread.Sleep(1000);
@@ -84,9 +84,7 @@ namespace DebuggerConsole
                     {
                         listRow[docId - 1].InputValue[listVariables[wordId]].ValueCell = (int)listRow[docId - 1].InputValue[listVariables[wordId]].ValueCell + countWord;
                     }
-                    double newMin = Math.Min(listVariables[wordId].LimitVariables.Key, Convert.ToDouble(listRow[docId - 1].InputValue[listVariables[wordId]].ValueCell));
-                    double newMax = Math.Max(listVariables[wordId].LimitVariables.Value, Convert.ToDouble(listRow[docId - 1].InputValue[listVariables[wordId]].ValueCell));
-                    listVariables[wordId].LimitVariables = new KeyValuePair<double, double>(newMin, newMax);
+                    listVariables[wordId].RescaleLimitVariables(Convert.ToDouble(listRow[docId - 1].InputValue[listVariables[wordId]].ValueCell));
                 }
             }
             finally
@@ -102,14 +100,14 @@ namespace DebuggerConsole
             Dataset dataset = new Dataset("Bag of Word Dataset", listRow, listVariables, new List<Variables>());
             IClustering clusterMethod = new ClusteringKMeans(10, 1000, false, ref rnd, dataset);
             ClusteringResult clusters = clusterMethod.Run();
-            List<string> report = clusterMethod.PrintClusterResult(clusters);
+            List<string> report = clusters.PrintCompleteResult();
             for (int i = 0; i < report.Count; i++) Console.WriteLine(report[i]);
             System.IO.File.WriteAllLines(base_url + @"output.txt", report);
 
 
             IClustering clusterMethod2 = new ClusteringKMeans(10, 1000, false, ref rnd, dataset, new ForgyAlgorithm(10, dataset));
             ClusteringResult clusters2 = clusterMethod2.Run();
-            List<string> report2 = clusterMethod2.PrintClusterResult(clusters2);
+            List<string> report2 = clusters2.PrintCompleteResult();
             for (int i = 0; i < report.Count; i++) Console.WriteLine(report2[i]);
             System.IO.File.WriteAllLines(base_url + @"output2.txt", report2);
             string hold = Console.ReadLine();

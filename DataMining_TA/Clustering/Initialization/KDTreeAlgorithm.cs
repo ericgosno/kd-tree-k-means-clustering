@@ -1,4 +1,26 @@
-﻿using System;
+﻿// <copyright file="KDTreeAlgorithm.cs">
+// Copyright (c) 05-04-2013 All Right Reserved
+// </copyright>
+
+// This script is free software; you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation; either version 2 of the License, or
+// (at your option) any later version.   
+
+// The GNU General Public License can be found at 
+// http://www.gnu.org/copyleft/gpl.html
+
+// This script is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+// GNU General Public License for more details.
+
+// <author>Eric Budiman Gosno <eric.gosno@gmail.com></author>
+// <date>05-04-2013</date>
+// <summary>Class representing a KDTreeAlgorithm.cs entity.</summary>
+
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,13 +30,18 @@ using K_D_Tree;
 using K_D_Tree.Separator;
 namespace Clustering.Initialization
 {
+    /// <summary>
+    /// Initialisation K-Means Clustering using KD-Tree K-Means Algorithm
+    /// Implemented from journal "A Method for initialising the K-Means Clustering Algorithm using KD-Tree" (Redmond, Heneghan 2007)
+    /// </summary>
     public class KDTreeAlgorithm : IClusteringInitialization
     {
-        int numK;
-        Dataset dataset;
-        bool useOutlierRemoval;
-        bool useDensityRank;
-
+        #region private_or_protected_properties
+        private int numK;
+        private Dataset dataset;
+        private bool useOutlierRemoval;
+        private bool useDensityRank;
+        #endregion
 
         #region public_properties
         public bool UseOutlierRemoval
@@ -40,6 +67,9 @@ namespace Clustering.Initialization
         #endregion
 
         #region Constructor
+        /// <summary>
+        /// Initializes a new instance of the <see cref="KDTreeAlgorithm"/> class.
+        /// </summary>
         public KDTreeAlgorithm()
         {
             this.numK = 0;
@@ -48,6 +78,12 @@ namespace Clustering.Initialization
             this.useDensityRank = false;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="KDTreeAlgorithm"/> class.
+        /// </summary>
+        /// <param name="numK">Number of Cluster</param>
+        /// <param name="useOutlierRemoval">if set to <c>true</c> [use outlier removal].</param>
+        /// <param name="useDensityRank">if set to <c>true</c> [use density rank].</param>
         public KDTreeAlgorithm(int numK, bool useOutlierRemoval,bool useDensityRank)
         {
             this.numK = numK;
@@ -56,6 +92,13 @@ namespace Clustering.Initialization
             this.useDensityRank = useDensityRank;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="KDTreeAlgorithm"/> class.
+        /// </summary>
+        /// <param name="numK">Number of Cluster</param>
+        /// <param name="dataset">The dataset.</param>
+        /// <param name="useOutlierRemoval">if set to <c>true</c> [use outlier removal].</param>
+        /// <param name="useDensityRank">if set to <c>true</c> [use density rank].</param>
         public KDTreeAlgorithm(int numK, Dataset dataset,bool useOutlierRemoval, bool useDensityRank)
         {
             this.numK = numK;
@@ -65,6 +108,11 @@ namespace Clustering.Initialization
         }
         #endregion
 
+        #region iClusteringInitialization_Implementation
+        /// <summary>
+        /// Runs this instance.
+        /// </summary>
+        /// <returns></returns>
         public List<Row> Run()
         {
             if (numK <= 0 || dataset.ListRow.Count <= 0 || dataset.ListRow.Count < numK)
@@ -158,6 +206,12 @@ namespace Clustering.Initialization
             return centroid;
         }
 
+        /// <summary>
+        /// Runs the specified dataset.
+        /// </summary>
+        /// <param name="dataset">The dataset.</param>
+        /// <param name="K">Number of Cluster</param>
+        /// <returns></returns>
         public List<Row> Run(Dataset dataset, int K)
         {
             this.numK = K;
@@ -165,6 +219,10 @@ namespace Clustering.Initialization
             return this.Run();
         }
 
+        /// <summary>
+        /// Runs with running time calculation
+        /// </summary>
+        /// <returns></returns>
         public KeyValuePair<List<Row>, long> RunWithTime()
         {
             var sw = Stopwatch.StartNew();
@@ -172,6 +230,13 @@ namespace Clustering.Initialization
             long elapsedTime = sw.ElapsedMilliseconds;
             return new KeyValuePair<List<Row>, long>(ans, elapsedTime); 
         }
+
+        /// <summary>
+        /// Runs with running time calculation
+        /// </summary>
+        /// <param name="dataset">The dataset.</param>
+        /// <param name="K">Number of Cluster</param>
+        /// <returns></returns>
         public KeyValuePair<List<Row>, long> RunWithTime(Dataset dataset, int K)
         {
             this.dataset = dataset;
@@ -179,13 +244,17 @@ namespace Clustering.Initialization
             return this.RunWithTime();
         }
 
-
+        /// <summary>
+        /// Prints the detail.
+        /// </summary>
+        /// <returns></returns>
         public List<string> PrintDetail()
         {
             List<string> ans = new List<string>();
             ans.Add("Initialization Method : KD-Tree Algorithm");
             ans.Add("Use Outlier Removal : " + (useOutlierRemoval ? "true" : "false"));
-            return ans;            
+            return ans;
         }
+        #endregion
     }
 }

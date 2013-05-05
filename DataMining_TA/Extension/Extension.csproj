@@ -40,9 +40,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CategoricalVariable.cs" />
     <Compile Include="Cell.cs" />
     <Compile Include="Cluster.cs" />
+    <Compile Include="ContinueVariable.cs" />
     <Compile Include="Dataset.cs" />
+    <Compile Include="DiscreetVariable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Row.cs" />
     <Compile Include="Variables.cs" />

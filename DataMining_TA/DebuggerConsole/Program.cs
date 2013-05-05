@@ -10,7 +10,8 @@ namespace DebuggerConsole
     {
         static void Main(string[] args)
         {
-            Template_BagOfWord_Debug.run();
+            PenDigits_Debug.run();
+            //Template_BagOfWord_Debug.run();
         }
     }
 }

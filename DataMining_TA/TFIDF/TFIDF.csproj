@@ -40,13 +40,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="InverseDocumentFrequency\iInverseDocumentFrequency.cs" />
+    <Compile Include="InverseDocumentFrequency\IInverseDocumentFrequency.cs" />
     <Compile Include="InverseDocumentFrequency\LogarithmInverseDocumentFrequency.cs" />
     <Compile Include="InverseDocumentFrequency\NaturalInverseDocumentFrequency.cs" />
     <Compile Include="InverseDocumentFrequency\ProbabilityInverseDocumentFrequency.cs" />
     <Compile Include="TermFrequency\AugmentedTermFrequency.cs" />
     <Compile Include="TermFrequency\BooleanTermFrequency.cs" />
-    <Compile Include="TermFrequency\iTermFrequency.cs" />
+    <Compile Include="TermFrequency\ITermFrequency.cs" />
     <Compile Include="TermFrequency\LogarithmTermFrequency.cs" />
     <Compile Include="TermFrequency\LogAveTermFrequency.cs" />
     <Compile Include="TermFrequency\NaturalTermFrequency.cs" />

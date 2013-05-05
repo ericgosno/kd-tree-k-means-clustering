@@ -54,9 +54,7 @@ namespace DebuggerConsole
                         if (i != 16)
                         {
                             Cell newCell = new Cell(inputVariables[i], ang);
-                            double newMin = Math.Min(inputVariables[i].LimitVariables.Key, Convert.ToDouble(ang));
-                            double newMax = Math.Max(inputVariables[i].LimitVariables.Value, Convert.ToDouble(ang));
-                            inputVariables[i].LimitVariables = new KeyValuePair<double, double>(newMin, newMax);
+                            inputVariables[i].RescaleLimitVariables(Convert.ToDouble(ang));
                             newRow.InputValue.Add(inputVariables[i], newCell);
                         }
                         else
@@ -83,16 +81,14 @@ namespace DebuggerConsole
 
             IClustering clusterMethod = new ClusteringKMeans(10, 1000, false, ref rnd, dataset);
             ClusteringResult clusters = clusterMethod.Run();
-            List<string> report = clusterMethod.PrintClusterResult(clusters);
-            report.AddRange(clusters.PrintClusterDetail());
+            List<string> report = clusters.PrintCompleteResult();
             for (int i = 0; i < report.Count; i++) Console.WriteLine(report[i]);
             System.IO.File.WriteAllLines(base_url + @"output.txt", report);
 
 
             IClustering clusterMethod2 = new ClusteringKMeans(10, 1000, false, ref rnd, dataset, new ForgyAlgorithm(10, dataset));
             ClusteringResult clusters2 = clusterMethod2.Run();
-            List<string> report2 = clusterMethod2.PrintClusterResult(clusters2);
-            report2.AddRange(clusters2.PrintClusterDetail());
+            List<string> report2 = clusters2.PrintCompleteResult();
             for (int i = 0; i < report2.Count; i++) Console.WriteLine(report2[i]);
             System.IO.File.WriteAllLines(base_url + @"output2.txt", report2);
             string hold = Console.ReadLine();

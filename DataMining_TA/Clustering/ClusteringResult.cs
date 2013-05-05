@@ -1,4 +1,26 @@
-﻿using System;
+﻿// <copyright file="ClusteringResult.cs">
+// Copyright (c) 05-04-2013 All Right Reserved
+// </copyright>
+
+// This script is free software; you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation; either version 2 of the License, or
+// (at your option) any later version.   
+
+// The GNU General Public License can be found at 
+// http://www.gnu.org/copyleft/gpl.html
+
+// This script is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+// GNU General Public License for more details.
+
+// <author>Eric Budiman Gosno <eric.gosno@gmail.com></author>
+// <date>05-04-2013</date>
+// <summary>Class representing a ClusteringResult.cs entity.</summary>
+
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,12 +28,20 @@ using Extension;
 
 namespace Clustering
 {
+    /// <summary>
+    /// Contains Result of Clustering Method
+    /// Including Running Time, List of Clusters, Number Repetition, Dataset, and Clustering Method
+    /// </summary>
+    
     public class ClusteringResult
     {
+        #region private_or_protected_properties
         private Dataset dataset;
         private List<Cluster> clusters;
         private int numRep;
         private long runningTime;
+        private IClustering clusteringMethod;
+        #endregion
 
         #region public_properties
         public List<Cluster> Clusters
@@ -36,21 +66,44 @@ namespace Clustering
             get { return runningTime; }
             set { runningTime = value; }
         }
+        public IClustering ClusteringMethod
+        {
+            get { return clusteringMethod; }
+            set { clusteringMethod = value; }
+        }
         #endregion
 
         #region Constructor
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ClusteringResult"/> class.
+        /// </summary>
         public ClusteringResult()
         {
             this.clusters = new List<Cluster>();
         }
 
-        public ClusteringResult(Dataset dataset,List<Cluster> clusters, int numRep)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ClusteringResult"/> class.
+        /// </summary>
+        /// <param name="dataset">The dataset.</param>
+        /// <param name="clusters">The clusters.</param>
+        /// <param name="numRep">The num repetition</param>
+        /// <param name="clusteringMethod">The clustering method.</param>
+        public ClusteringResult(Dataset dataset,List<Cluster> clusters, int numRep, IClustering clusteringMethod)
         {
             this.clusters = clusters;
             this.numRep = numRep;
             this.dataset = dataset;
+            this.clusteringMethod = clusteringMethod;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ClusteringResult"/> class.
+        /// </summary>
+        /// <param name="dataset">The dataset.</param>
+        /// <param name="clusters">The clusters.</param>
+        /// <param name="numRep">The num repetition</param>
+        /// <param name="runningTime">The running time.</param>
         public ClusteringResult(Dataset dataset,List<Cluster> clusters, int numRep,long runningTime)
         {
             this.clusters = clusters;
@@ -61,6 +114,26 @@ namespace Clustering
 
         #endregion
 
+        #region public_function
+        /// <summary>
+        /// Prints the complete result.
+        /// </summary>
+        /// <returns></returns>
+        public List<string> PrintCompleteResult()
+        {
+            List<string> report = new List<string>();
+            report.AddRange(this.clusteringMethod.PrintClusterResult());
+            report.AddRange(this.dataset.PrintDatasetDetail());
+            report.AddRange(this.PrintDetail());
+            report.AddRange(this.PrintClusterDetail());
+            report.AddRange(this.PrintOutputDetail());
+            return report;
+        }
+
+        /// <summary>
+        /// Prints Clustering Result detail.
+        /// </summary>
+        /// <returns></returns>
         public List<string> PrintDetail()
         {
             List<string> ans = new List<string>();
@@ -71,6 +144,10 @@ namespace Clustering
             return ans;
         }
 
+        /// <summary>
+        /// Prints the cluster detail.
+        /// </summary>
+        /// <returns></returns>
         public List<string> PrintClusterDetail()
         {
             List<string> ans = new List<string>();
@@ -105,6 +182,20 @@ namespace Clustering
             return ans;
         }
 
+        /// <summary>
+        /// Prints the output detail.
+        /// </summary>
+        /// <returns></returns>
+        public List<string> PrintOutputDetail()
+        {
+            List<string> report = new List<string>();
+            return report;
+        }
+
+        /// <summary>
+        /// Calculates the SSE.
+        /// </summary>
+        /// <returns></returns>
         public double calculateSSE()
         {
             double ans = 0.0;
@@ -114,5 +205,6 @@ namespace Clustering
             }
             return ans;
         }
+        #endregion
     }
 }

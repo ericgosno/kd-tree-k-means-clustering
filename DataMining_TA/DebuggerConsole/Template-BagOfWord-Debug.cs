@@ -129,9 +129,8 @@ namespace DebuggerConsole
                     {
                         listRow[docId-1].InputValue[inputVariables[wordId-1]].ValueCell = (int)listRow[docId-1].InputValue[inputVariables[wordId-1]].ValueCell + countWord;
                     }
-                    double newMin = Math.Min(inputVariables[wordId-1].LimitVariables.Key, Convert.ToDouble(listRow[docId - 1].InputValue[inputVariables[wordId-1]].ValueCell));
-                    double newMax = Math.Max(inputVariables[wordId-1].LimitVariables.Value, Convert.ToDouble(listRow[docId - 1].InputValue[inputVariables[wordId-1]].ValueCell));
-                    inputVariables[wordId-1].LimitVariables = new KeyValuePair<double, double>(newMin, newMax);
+
+                    inputVariables[wordId-1].RescaleLimitVariables(Convert.ToDouble(listRow[docId - 1].InputValue[inputVariables[wordId-1]].ValueCell));
                 }
             }
             finally
@@ -150,15 +149,15 @@ namespace DebuggerConsole
 
             IClustering clusterMethod = new ClusteringKMeans(10, 1000, false, ref rnd, dataset);
             ClusteringResult clusters = clusterMethod.Run();
-            List<string> report = clusterMethod.PrintClusterResult(clusters);
+            List<string> report = clusters.PrintCompleteResult();
             for (int i = 0; i < report.Count; i++) Console.WriteLine(report[i]);
             System.IO.File.WriteAllLines(base_url + @"output.txt", report);
 
 
             IClustering clusterMethod2 = new ClusteringKMeans(10, 1000, false, ref rnd, dataset, new ForgyAlgorithm(10, dataset));
             ClusteringResult clusters2 = clusterMethod2.Run();
-            List<string> report2 = clusterMethod2.PrintClusterResult(clusters2);
-            for (int i = 0; i < report.Count; i++) Console.WriteLine(report2[i]);
+            List<string> report2 = clusters.PrintCompleteResult();
+            for (int i = 0; i < report2.Count; i++) Console.WriteLine(report2[i]);
             System.IO.File.WriteAllLines(base_url + @"output2.txt", report2);
             string hold = Console.ReadLine();
         }

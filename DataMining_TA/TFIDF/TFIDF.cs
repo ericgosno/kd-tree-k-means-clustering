@@ -1,4 +1,26 @@
-﻿using System;
+﻿// <copyright file="TFIDF.cs">
+// Copyright (c) 05-05-2013 All Right Reserved
+// </copyright>
+
+// This script is free software; you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation; either version 2 of the License, or
+// (at your option) any later version.   
+
+// The GNU General Public License can be found at 
+// http://www.gnu.org/copyleft/gpl.html
+
+// This script is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+// GNU General Public License for more details.
+
+// <author>Eric Budiman Gosno <eric.gosno@gmail.com></author>
+// <date>05-05-2013</date>
+// <summary>Class representing a TFIDF.cs entity.</summary>
+
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,11 +30,17 @@ using Extension;
 
 namespace TFIDF
 {
+    /// <summary>
+    /// TFIDF Converter Class
+    /// Convert Bag of Words Frequency dataset to TFIDF 
+    /// </summary>
     public class TFIDF
     {
-        private iInverseDocumentFrequency methodIDF;
-        private iTermFrequency methodTF;
+        #region private_or_protected_properties
+        private IInverseDocumentFrequency methodIDF;
+        private ITermFrequency methodTF;
         private Dataset dataset;
+        #endregion
 
         #region public_properties
         public Dataset Dataset
@@ -21,13 +49,13 @@ namespace TFIDF
             set { dataset = value; }
         }
 
-        public iInverseDocumentFrequency MethodIDF
+        public IInverseDocumentFrequency MethodIDF
         {
             get { return methodIDF; }
             set { methodIDF = value; }
         }
 
-        public iTermFrequency MethodTF
+        public ITermFrequency MethodTF
         {
             get { return methodTF; }
             set { methodTF = value; }
@@ -35,19 +63,34 @@ namespace TFIDF
         #endregion
 
         #region Constructor
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TFIDF"/> class.
+        /// </summary>
         public TFIDF()
         {
             this.dataset = new Dataset();
             this.methodTF = new LogarithmTermFrequency();
             this.methodIDF = new LogarithmInverseDocumentFrequency();
         }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TFIDF"/> class.
+        /// </summary>
+        /// <param name="dataset">The dataset.</param>
         public TFIDF(Dataset dataset)
         {
             this.dataset = dataset;
             this.methodTF = new LogarithmTermFrequency();
             this.methodIDF = new LogarithmInverseDocumentFrequency();
         }
-        public TFIDF(Dataset dataset, iTermFrequency methodTF, iInverseDocumentFrequency methodIDF)
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TFIDF"/> class.
+        /// </summary>
+        /// <param name="dataset">The dataset.</param>
+        /// <param name="methodTF">The method TF.</param>
+        /// <param name="methodIDF">The method IDF.</param>
+        public TFIDF(Dataset dataset, ITermFrequency methodTF, IInverseDocumentFrequency methodIDF)
         {
             this.dataset = dataset;
             this.methodTF = methodTF;
@@ -55,6 +98,13 @@ namespace TFIDF
         }
         #endregion
 
+        #region public_function
+
+        /// <summary>
+        /// Calculates the frequency.
+        /// </summary>
+        /// <param name="dataset">The dataset.</param>
+        /// <returns></returns>
         public Dataset CalculateFrequency(Dataset dataset)
         {
             Dataset tmpDataset = this.dataset;
@@ -77,6 +127,10 @@ namespace TFIDF
             return tmpDataset;
         }
 
+        /// <summary>
+        /// Runs this instance.
+        /// </summary>
+        /// <returns></returns>
         public Dataset Run()
         {
             if (this.dataset == null || this.dataset.InputVariables.Count == 0 || this.dataset.ListRow.Count == 0)
@@ -96,10 +150,16 @@ namespace TFIDF
             return tmpDataset;
         }
 
+        /// <summary>
+        /// Runs the specified dataset.
+        /// </summary>
+        /// <param name="dataset">The dataset.</param>
+        /// <returns></returns>
         public Dataset Run(Dataset dataset)
         {
             this.dataset = dataset;
             return this.Run();
         }
+        #endregion
     }
 }
