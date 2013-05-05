@@ -1,4 +1,26 @@
-﻿using System;
+﻿// <copyright file="KDTree.cs">
+// Copyright (c) 05-04-2013 All Right Reserved
+// </copyright>
+
+// This script is free software; you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation; either version 2 of the License, or
+// (at your option) any later version.   
+
+// The GNU General Public License can be found at 
+// http://www.gnu.org/copyleft/gpl.html
+
+// This script is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+// GNU General Public License for more details.
+
+// <author>Eric Budiman Gosno <eric.gosno@gmail.com></author>
+// <date>05-04-2013</date>
+// <summary>Class representing a KDTree.cs entity.</summary>
+
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,14 +30,18 @@ using K_D_Tree.Separator;
 
 namespace K_D_Tree
 {
+    /// <summary>
+    /// K-Dimensional Tree Implementation
+    /// </summary>
     public class KDTree
     {
-        Node root;
-        Dataset dataset;
-        int maxPointInLeaf;
-
-        ISeparator separateMethod;
-        List<Leaf> listBucketLeaf;
+        #region private_or_protected_properties
+        private Node root;
+        private Dataset dataset;
+        private int maxPointInLeaf;
+        private ISeparator separateMethod;
+        private List<Leaf> listBucketLeaf;
+        #endregion
 
         #region public_properties
         public int MaxPointInLeaf
@@ -42,6 +68,10 @@ namespace K_D_Tree
         }
         #endregion
 
+        #region Constructor
+        /// <summary>
+        /// Initializes a new instance of the <see cref="KDTree"/> class.
+        /// </summary>
         public KDTree()
         {
             this.dataset = new Dataset();
@@ -52,6 +82,11 @@ namespace K_D_Tree
             separateMethod = new MedianBFPRTSeparator();
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="KDTree"/> class.
+        /// </summary>
+        /// <param name="dataset">The dataset.</param>
+        /// <param name="maxPointInLeaf">The max point in leaf.</param>
         public KDTree(Dataset dataset,int maxPointInLeaf)
         {
             this.dataset = dataset;
@@ -62,6 +97,12 @@ namespace K_D_Tree
             this.separateMethod = new MedianBFPRTSeparator();
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="KDTree"/> class.
+        /// </summary>
+        /// <param name="dataset">The dataset.</param>
+        /// <param name="maxPointInLeaf">The max point in leaf.</param>
+        /// <param name="separatorMethod">The separator method.</param>
         public KDTree(Dataset dataset, int maxPointInLeaf,ISeparator separatorMethod)
         {
             this.dataset = dataset;
@@ -70,7 +111,111 @@ namespace K_D_Tree
             this.maxPointInLeaf = maxPointInLeaf;
             this.separateMethod = separatorMethod;
         }
+        #endregion
 
+        #region public_function
+        /// <summary>
+        /// Traces the leaf bucket.
+        /// </summary>
+        /// <returns></returns>
+        public List<Leaf> TraceLeafBucket()
+        {
+            listBucketLeaf = new List<Leaf>();
+            RecursiveTraceLeafBucket(root);
+            return listBucketLeaf;
+        }
+
+        /// <summary>
+        /// Runs this instance.
+        /// </summary>
+        public void Run()
+        {
+            if (dataset.ListRow == null || dataset.InputVariables == null || dataset.ListRow.Count <= 0 || dataset.InputVariables.Count <= 0)
+                return;
+
+            this.listBucketLeaf = new List<Leaf>();
+            if (dataset.ListRow.Count <= maxPointInLeaf)
+            {
+                CreateRootLeaf(dataset.ListRow);
+                return;
+            }
+            CreateRoot();
+            RecursiveRun(this.dataset.ListRow, 0, this.root);
+        }
+
+        /// <summary>
+        /// Runs the specified dataset.
+        /// </summary>
+        /// <param name="dataset">The dataset.</param>
+        /// <param name="maxPointInLeaf">The max point in leaf.</param>
+        public void Run(Dataset dataset, int maxPointInLeaf)
+        {
+            this.dataset = dataset;
+            this.maxPointInLeaf = maxPointInLeaf;
+            this.Run();
+        }
+
+        /// <summary>
+        /// Runs the specified dataset.
+        /// </summary>
+        /// <param name="dataset">The dataset.</param>
+        /// <param name="maxPointInLeaf">The max point in leaf.</param>
+        /// <param name="separatorMethod">The separator method.</param>
+        public void Run(Dataset dataset, int maxPointInLeaf, ISeparator separatorMethod)
+        {
+            this.dataset = dataset;
+            this.maxPointInLeaf = maxPointInLeaf;
+            this.separateMethod = separatorMethod;
+            this.Run();
+        }
+
+        /// <summary>
+        /// Runs the with time.
+        /// </summary>
+        /// <returns></returns>
+        public long RunWithTime()
+        {
+            var sw = Stopwatch.StartNew();
+            this.Run();
+            long elapsedTime = sw.ElapsedMilliseconds;
+            sw.Stop();
+            return elapsedTime;
+        }
+
+        /// <summary>
+        /// Runs the with time.
+        /// </summary>
+        /// <param name="dataset">The dataset.</param>
+        /// <param name="maxPointInLeaf">The max point in leaf.</param>
+        /// <returns></returns>
+        public long RunWithTime(Dataset dataset, int maxPointInLeaf)
+        {
+            this.dataset = dataset;
+            this.maxPointInLeaf = maxPointInLeaf;
+            return this.RunWithTime();
+        }
+
+
+        /// <summary>
+        /// Runs the with time.
+        /// </summary>
+        /// <param name="dataset">The dataset.</param>
+        /// <param name="maxPointInLeaf">The max point in leaf.</param>
+        /// <param name="separatorMethod">The separator method.</param>
+        /// <returns></returns>
+        public long RunWithTime(Dataset dataset, int maxPointInLeaf, ISeparator separatorMethod)
+        {
+            this.dataset = dataset;
+            this.maxPointInLeaf = maxPointInLeaf;
+            this.separateMethod = separatorMethod;
+            return this.RunWithTime();
+        }
+        #endregion
+
+        #region private_function
+        /// <summary>
+        /// Creates the root.
+        /// </summary>
         private void CreateRoot()
         {
             root = new Node(0);
@@ -89,6 +234,10 @@ namespace K_D_Tree
             root.UpperBound = upperBound;
         }
 
+        /// <summary>
+        /// Creates the root as leaf.
+        /// </summary>
+        /// <param name="rows">List rows.</param>
         private void CreateRootLeaf(List<Row> rows)
         {
             root = new Leaf(0, rows);
@@ -106,6 +255,12 @@ namespace K_D_Tree
 
         }
 
+        /// <summary>
+        /// Recursives the run.
+        /// </summary>
+        /// <param name="pointList">The point list.</param>
+        /// <param name="depth">The depth.</param>
+        /// <param name="nodeNow">The node now.</param>
         private void RecursiveRun(List<Row> pointList, int depth,Node nodeNow)
         {
             nodeNow.PivotVariable = dataset.InputVariables[depth % dataset.InputVariables.Count];
@@ -180,6 +335,10 @@ namespace K_D_Tree
             return;
         }
 
+        /// <summary>
+        /// Recursives the trace leaf bucket.
+        /// </summary>
+        /// <param name="posnow">Node now</param>
         private void RecursiveTraceLeafBucket(Node posnow)
         {
             if (posnow is Leaf)
@@ -199,65 +358,6 @@ namespace K_D_Tree
             }
             catch (Exception ex) { }
         }
-
-        public List<Leaf> TraceLeafBucket()
-        {
-            listBucketLeaf = new List<Leaf>();
-            RecursiveTraceLeafBucket(root);
-            return listBucketLeaf;
-        }
-
-        public void Run()
-        {
-            if (dataset.ListRow == null || dataset.InputVariables == null ||  dataset.ListRow.Count <= 0 || dataset.InputVariables.Count <= 0)
-                return;
-
-            this.listBucketLeaf = new List<Leaf>();
-            if (dataset.ListRow.Count <= maxPointInLeaf)
-            {
-                CreateRootLeaf(dataset.ListRow);
-                return;
-            }
-            CreateRoot();
-            RecursiveRun(this.dataset.ListRow, 0, this.root);
-        }
-
-        public void Run(Dataset dataset, int maxPointInLeaf)
-        {
-            this.dataset = dataset;
-            this.maxPointInLeaf = maxPointInLeaf;
-            this.Run();
-        }
-
-        public void Run(Dataset dataset, int maxPointInLeaf, ISeparator separatorMethod)
-        {
-            this.dataset = dataset;
-            this.maxPointInLeaf = maxPointInLeaf;
-            this.separateMethod = separatorMethod;
-            this.Run();
-        }
-
-        public long RunWithTime()
-        {
-            var sw = Stopwatch.StartNew();
-            this.Run();
-            long elapsedTime = sw.ElapsedMilliseconds;
-            sw.Stop();
-            return elapsedTime;
-        }
-        public long RunWithTime(Dataset dataset, int maxPointInLeaf)
-        {
-            this.dataset = dataset;
-            this.maxPointInLeaf = maxPointInLeaf;
-            return this.RunWithTime();
-        }
-        public long RunWithTime(Dataset dataset, int maxPointInLeaf, ISeparator separatorMethod)
-        {
-            this.dataset = dataset;
-            this.maxPointInLeaf = maxPointInLeaf;
-            this.separateMethod = separatorMethod;
-            return this.RunWithTime();
-        }
-
+        #endregion
     }
 }

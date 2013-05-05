@@ -1,18 +1,46 @@
-﻿using System;
+﻿// <copyright file="Dataset.cs">
+// Copyright (c) 05-04-2013 All Right Reserved
+// </copyright>
+
+// This script is free software; you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation; either version 2 of the License, or
+// (at your option) any later version.   
+
+// The GNU General Public License can be found at 
+// http://www.gnu.org/copyleft/gpl.html
+
+// This script is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+// GNU General Public License for more details.
+
+// <author>Eric Budiman Gosno <eric.gosno@gmail.com></author>
+// <date>05-04-2013</date>
+// <summary>Class representing a Dataset.cs entity.</summary>
+
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 namespace Extension
 {
+    /// <summary>
+    /// Class Dataset
+    /// Contains List Row, List Variables, and List Class
+    /// Core Information for Data Processing
+    /// </summary>
     public class Dataset
     {
+        #region private_or_protected_properties
         private List<Row> listRow;
         private List<Variables> inputVariables;
         private List<Variables> outputVariables;
         private string titleDataset;
         private bool isCalculatedFrequency;
-
+        #endregion
 
         #region public_properties
         public bool IsCalculatedFrequency
@@ -46,6 +74,9 @@ namespace Extension
         #endregion
 
         #region constructor
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Dataset"/> class.
+        /// </summary>
         public Dataset()
         {
             listRow = new List<Row>();
@@ -54,6 +85,10 @@ namespace Extension
             titleDataset = this.GetHashCode().ToString();
             isCalculatedFrequency = false;
         }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Dataset"/> class.
+        /// </summary>
+        /// <param name="title">The title.</param>
         public Dataset(string title)
         {
             listRow = new List<Row>();
@@ -62,6 +97,13 @@ namespace Extension
             isCalculatedFrequency = false;
             this.titleDataset = title;            
         }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Dataset"/> class.
+        /// </summary>
+        /// <param name="title">The title.</param>
+        /// <param name="listRow">The list row.</param>
+        /// <param name="inputVariables">The input variables.</param>
+        /// <param name="outputVariables">The output variables.</param>
         public Dataset(string title,List<Row> listRow, List<Variables> inputVariables, List<Variables> outputVariables)
         {
             this.listRow = listRow;
@@ -77,6 +119,10 @@ namespace Extension
                 }
             }
         }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Dataset"/> class.
+        /// </summary>
+        /// <param name="another">Another.</param>
         public Dataset(Dataset another)
         {
             Dataset news = another.Copy();
@@ -88,6 +134,11 @@ namespace Extension
         }
         #endregion
 
+        #region public_function
+        /// <summary>
+        /// Copies this instance.
+        /// </summary>
+        /// <returns></returns>
         public Dataset Copy()
         {
             Dataset news = new Dataset();
@@ -102,7 +153,11 @@ namespace Extension
             return news;
         }
 
-        public List<string> PrintDetail()
+        /// <summary>
+        /// Prints the dataset detail.
+        /// </summary>
+        /// <returns></returns>
+        public List<string> PrintDatasetDetail()
         {
             List<string> report = new List<string>();
             report.Add("Dataset Title : " + this.titleDataset);
@@ -111,5 +166,6 @@ namespace Extension
             report.Add("Number of Row : " + this.listRow.Count);
             return report;
         }
+        #endregion
     }
 }
