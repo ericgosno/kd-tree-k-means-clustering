@@ -31,7 +31,7 @@ namespace Extension
     /// CategoricalVariable Class
     /// Store information about Categorical Type Variable
     /// </summary>
-    class CategoricalVariable : DiscreetVariable
+    public class CategoricalVariable : DiscreetVariable
     {
         #region private_or_protected_properties
         private Dictionary<object, int> paramVariables;
@@ -111,6 +111,26 @@ namespace Extension
             : base(nameVariables, rowFrequency, termFrequency)
         {
             this.paramVariables = paramVariables;
+        }
+        #endregion
+
+        #region Override Function
+        public override List<string> PrintVariableDetail()
+        {
+            List<string> report = new List<string>();
+            
+            report.AddRange(base.PrintVariableDetail());
+
+            report[0] = "Variable Type : Categorical Variable";
+            if (paramVariables.Count > 0)
+            {
+                report.Add("Parameter Variable : ");
+                foreach (object param in paramVariables.Keys)
+                {
+                    report.Add("Variables #" + paramVariables[param].ToString() + " : " + param.ToString());
+                }
+            }
+            return report;
         }
         #endregion
     }

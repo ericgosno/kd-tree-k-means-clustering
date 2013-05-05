@@ -24,10 +24,10 @@ namespace DebuggerConsole
 
             for (int i = 0; i < 16; i++)
             {
-                Variables news = new Variables("Var#" + (i + 1).ToString());
+                Variables news = new ContinueVariable("Var#" + (i + 1).ToString());
                 inputVariables.Add(news);
             }
-            Variables outputVar = new Variables("Output1");
+            Variables outputVar = new DiscreetVariable("Output1");
             outputVariables.Add(outputVar);
 
             try

@@ -80,6 +80,17 @@ namespace Extension
         {
             return new Cell(this.varCell, this.valueCell);
         }
+
+        /// <summary>
+        /// Prints the cell detail.
+        /// </summary>
+        /// <returns></returns>
+        public List<string> PrintCellDetail()
+        {
+            List<string> report = new List<string>();
+            report.Add("Cell ==> Var : " + varCell.NameVariables + " Value : " + valueCell.ToString());
+            return report;
+        }
         #endregion
     }
 

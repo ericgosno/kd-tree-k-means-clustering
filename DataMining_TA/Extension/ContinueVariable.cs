@@ -111,5 +111,23 @@ namespace Extension
             this.limitParamVariables = limitParamVariables;
         }
         #endregion
+
+        #region Override Function
+        public override List<string> PrintVariableDetail()
+        {
+            List<string> report = new List<string>();
+            report.Add("Variable Type : Continue Variable");
+            report.AddRange(base.PrintVariableDetail());
+            if (limitParamVariables.Count > 0)
+            {
+                report.Add("Limit Parameter Variable : ");
+                foreach (object paramVar in limitParamVariables.Keys)
+                {
+                    report.Add("Parameter #" + paramVar.ToString() + " Min : " + limitParamVariables[paramVar].Key + " Max : " + limitParamVariables[paramVar].Value);
+                }
+            }
+            return report;
+        }
+        #endregion
     }
 }

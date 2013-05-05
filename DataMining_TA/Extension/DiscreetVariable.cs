@@ -66,5 +66,15 @@ namespace Extension
 
         }
         #endregion
+
+        #region Override Function
+        public override List<string> PrintVariableDetail()
+        {
+            List<string> report = new List<string>();
+            report.Add("Variable Type : Discreet Variable");
+            report.AddRange(base.PrintVariableDetail());
+            return report;
+        }
+        #endregion
     }
 }

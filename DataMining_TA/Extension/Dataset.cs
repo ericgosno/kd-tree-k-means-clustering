@@ -166,6 +166,64 @@ namespace Extension
             report.Add("Number of Row : " + this.listRow.Count);
             return report;
         }
+
+        /// <summary>
+        /// Prints detail of dataset's input variable
+        /// </summary>
+        /// <returns></returns>
+        public List<string> PrintDatasetInputVariableDetail()
+        {
+            List<string> report = new List<string>();
+            report.Add("Amount Input Variable : " + this.inputVariables.Count);
+            for (int i = 0; i < inputVariables.Count; i++)
+            {
+                report.Add("Variable #" + (i+1).ToString() + " : ");
+                report.AddRange(inputVariables[i].PrintVariableDetail());
+            }
+            return report;
+        }
+
+        /// <summary>
+        /// Prints detail of dataset's output variable
+        /// </summary>
+        /// <returns></returns>
+        public List<string> PrintDatasetOutputVariableDetail()
+        {
+            List<string> report = new List<string>();
+            report.Add("Amount Output Variable : " + this.outputVariables.Count);
+            for (int i = 0; i < outputVariables.Count; i++)
+            {
+                report.Add("Variable #" + (i + 1).ToString() + " : ");
+                report.AddRange(outputVariables[i].PrintVariableDetail());
+            }
+            return report;
+        }
+
+        /// <summary>
+        /// Prints the dataset's row detail.
+        /// </summary>
+        /// <returns></returns>
+        public List<string> PrintDatasetRowDetail()
+        {
+            return PrintDatasetRowDetail(true, true);
+        }
+
+        /// <summary>
+        /// Prints the dataset row detail.
+        /// </summary>
+        /// <param name="printInputRow">if set to <c>true</c> [print input row].</param>
+        /// <param name="printOutputRow">if set to <c>true</c> [print output row].</param>
+        /// <returns></returns>
+        public List<string> PrintDatasetRowDetail(bool printInputRow,bool printOutputRow)
+        {
+            List<string> report = new List<string>();
+            report.Add("Amount Row : " + this.listRow.Count);
+            for (int i = 0; i < listRow.Count; i++)
+            {
+                report.AddRange(listRow[i].PrintRowDetail(printInputRow,printOutputRow));
+            }
+            return report;
+        }
         #endregion
     }
 }

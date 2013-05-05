@@ -125,6 +125,21 @@ namespace Extension
             double newMax = Math.Max(this.LimitVariables.Value, newVariableValue);
             this.LimitVariables = new KeyValuePair<double, double>(newMin, newMax);
         }
+
+        /// <summary>
+        /// Prints Variable detail.
+        /// </summary>
+        /// <returns></returns>
+        public virtual List<string> PrintVariableDetail()
+        {
+            List<string> report = new List<string>();
+            report.Add("Variable Name : " + nameVariables);
+            if(rowFrequency > 0)report.Add("Row Frequency : " + rowFrequency);
+            if(termFrequency > 0)report.Add("Term Frequency : " + termFrequency);
+            if(limitVariables.Key < (double)int.MaxValue)report.Add("Minimum Value : " + limitVariables.Key);
+            if (limitVariables.Value > (double)int.MinValue) report.Add("Maximum Value : " + limitVariables.Value);
+            return report;
+        }
         #endregion
     }
 

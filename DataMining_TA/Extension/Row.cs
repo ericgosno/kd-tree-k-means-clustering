@@ -133,6 +133,44 @@ namespace Extension
             }
             return newRow;
         }
+
+        /// <summary>
+        /// Prints the row detail.
+        /// </summary>
+        /// <returns></returns>
+        public List<string> PrintRowDetail()
+        {
+            return PrintRowDetail(true, true);
+        }
+
+        /// <summary>
+        /// Prints the row detail.
+        /// </summary>
+        /// <param name="printInputRow">if set to <c>true</c> [print input row].</param>
+        /// <param name="printOutputRow">if set to <c>true</c> [print output row].</param>
+        /// <returns></returns>
+        public List<string> PrintRowDetail(bool printInputRow, bool printOutputRow)
+        {
+            List<string> report = new List<string>();
+            report.Add("Row Name : " + rowIdentificator);
+            if (inputValue.Count > 0 && printInputRow)
+            {
+                report.Add("Input : ");
+                foreach (Cell cell in inputValue.Values)
+                {
+                    report.AddRange(cell.PrintCellDetail());
+                }
+            }
+            if (outputValue.Count > 0 && printOutputRow)
+            {
+                report.Add("Output : ");
+                foreach (Cell cell in outputValue.Values)
+                {
+                    report.AddRange(cell.PrintCellDetail());
+                }
+            }
+            return report;
+        }
         #endregion
     }
 
