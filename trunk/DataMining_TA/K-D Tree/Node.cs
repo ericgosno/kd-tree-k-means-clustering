@@ -36,8 +36,6 @@ namespace K_D_Tree
         #region protected_or_private_properties
         protected Variables pivotVariable;
         protected double pivotValue;
-        protected Row upperBound;
-        protected Row lowerBound;
         protected Node leftChild;
         protected Node rightChild;
         protected int depth;
@@ -56,17 +54,6 @@ namespace K_D_Tree
             set { pivotValue = value; }
         }
 
-        public Row UpperBound
-        {
-            get { return upperBound; }
-            set { upperBound = value; }
-        }
-
-        public Row LowerBound
-        {
-            get { return lowerBound; }
-            set { lowerBound = value; }
-        }
 
         public Node LeftChild
         {

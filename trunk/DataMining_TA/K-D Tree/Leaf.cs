@@ -34,6 +34,8 @@ namespace K_D_Tree
     public class Leaf : Node
     {
         #region private_or_protected_properties
+        protected Row upperBound;
+        protected Row lowerBound;
         private List<Row> pointInside;
         private double volume = double.MinValue;
         private double density = double.MinValue;
@@ -41,6 +43,17 @@ namespace K_D_Tree
         #endregion
 
         #region public_properties
+        public Row UpperBound
+        {
+            get { return upperBound; }
+            set { upperBound = value; }
+        }
+
+        public Row LowerBound
+        {
+            get { return lowerBound; }
+            set { lowerBound = value; }
+        }
         public List<Row> PointInside
         {
             get { return pointInside; }
@@ -87,6 +100,8 @@ namespace K_D_Tree
             : base()
         {
             this.pointInside = new List<Row>();
+            this.lowerBound = new Row();
+            this.upperBound = new Row();
         }
 
         /// <summary>
@@ -97,6 +112,8 @@ namespace K_D_Tree
             : base(depth)
         {
             this.pointInside = new List<Row>();
+            this.lowerBound = new Row();
+            this.upperBound = new Row();
         }
 
         /// <summary>
@@ -108,6 +125,7 @@ namespace K_D_Tree
             : base(depth)
         {
             this.pointInside = pointInside;
+            this.Recalculate();
         }
         #endregion
 
@@ -117,6 +135,8 @@ namespace K_D_Tree
         /// </summary>
         public void Recalculate()
         {
+            this.lowerBound = CalculateLowerBound();
+            this.upperBound = CalculateUpperBound();
             this.volume = CalculateVolume();
             this.midPoint = CalculateMidPoint();
             this.density = CalculateDensity();
@@ -125,6 +145,56 @@ namespace K_D_Tree
         #endregion
 
         #region private_function
+        /// <summary>
+        /// Calculates the lower bound.
+        /// </summary>
+        /// <returns></returns>
+        private Row CalculateLowerBound()
+        {
+            Row lb = new Row();
+            for (int i = 0; i < pointInside.Count; i++)
+            {
+                foreach (Variables var in pointInside[i].InputValue.Keys)
+                {
+                    if (lb.InputValue.ContainsKey(var))
+                    {
+                        lb.InputValue[var].ValueCell = Math.Min(Convert.ToDouble(lb.InputValue[var].ValueCell), Convert.ToDouble(pointInside[i].InputValue[var].ValueCell));
+                    }
+                    else
+                    {
+                        Cell newCell = new Cell(var, Convert.ToDouble(pointInside[i].InputValue[var].ValueCell));
+                        lb.InputValue.Add(var, newCell);
+                    }
+                }
+            }
+            return lb;
+        }
+
+        /// <summary>
+        /// Calculates the upper bound.
+        /// </summary>
+        /// <returns></returns>
+        private Row CalculateUpperBound()
+        {
+            Row ub = new Row();
+            for (int i = 0; i < pointInside.Count; i++)
+            {
+                foreach (Variables var in pointInside[i].InputValue.Keys)
+                {
+                    if (ub.InputValue.ContainsKey(var))
+                    {
+                        ub.InputValue[var].ValueCell = Math.Max(Convert.ToDouble(ub.InputValue[var].ValueCell), Convert.ToDouble(pointInside[i].InputValue[var].ValueCell));
+                    }
+                    else
+                    {
+                        Cell newCell = new Cell(var, Convert.ToDouble(pointInside[i].InputValue[var].ValueCell));
+                        ub.InputValue.Add(var, newCell);
+                    }
+                }
+            }
+            return ub;
+        }
+
         /// <summary>
         /// Calculates the volume of Leaf Bucket.
         /// </summary>

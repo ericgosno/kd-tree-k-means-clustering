@@ -219,19 +219,6 @@ namespace K_D_Tree
         private void CreateRoot()
         {
             root = new Node(0);
-            Row lowerBound = new Row();
-            Row upperBound = new Row();
-            for (int i = 0; i < dataset.InputVariables.Count; i++)
-            {
-                double lower = (dataset.InputVariables[i].LimitVariables.Key < (double)int.MaxValue) ? dataset.InputVariables[i].LimitVariables.Key : 0.0;
-                double upper = (dataset.InputVariables[i].LimitVariables.Value > (double)int.MinValue) ? dataset.InputVariables[i].LimitVariables.Value : 0.0;
-                Cell low = new Cell(dataset.InputVariables[i],dataset.InputVariables[i].LimitVariables.Key);
-                lowerBound.InputValue.Add(low.VarCell, low);
-                Cell up = new Cell(dataset.InputVariables[i], dataset.InputVariables[i].LimitVariables.Value);
-                upperBound.InputValue.Add(up.VarCell, up);
-            }
-            root.LowerBound = lowerBound;
-            root.UpperBound = upperBound;
         }
 
         /// <summary>
@@ -241,18 +228,6 @@ namespace K_D_Tree
         private void CreateRootLeaf(List<Row> rows)
         {
             root = new Leaf(0, rows);
-            Row lowerBound = new Row();
-            Row upperBound = new Row();
-            for (int i = 0; i < dataset.InputVariables.Count; i++)
-            {
-                Cell low = new Cell(dataset.InputVariables[i], dataset.InputVariables[i].LimitVariables.Key);
-                lowerBound.InputValue.Add(low.VarCell, low);
-                Cell up = new Cell(dataset.InputVariables[i], dataset.InputVariables[i].LimitVariables.Value);
-                upperBound.InputValue.Add(up.VarCell, up);
-            }
-            root.LowerBound = lowerBound;
-            root.UpperBound = upperBound;
-
         }
 
         /// <summary>
@@ -311,9 +286,6 @@ namespace K_D_Tree
                 listBucketLeaf.Add(leftChild as Leaf);
             }
             else if (leftRow.Count > 0) leftChild = new Node(depth + 1);
-            leftChild.LowerBound = nodeNow.LowerBound.Copy();
-            leftChild.UpperBound = nodeNow.UpperBound.Copy();
-            leftChild.UpperBound.InputValue[nodeNow.PivotVariable].ValueCell = nodeNow.PivotValue;
 
             Node rightChild = null;
             if (rightRow.Count <= maxPointInLeaf && rightRow.Count > 0)
@@ -322,12 +294,9 @@ namespace K_D_Tree
                 listBucketLeaf.Add(rightChild as Leaf);
             }
             else if (rightRow.Count > 0) rightChild = new Node(depth + 1);
-            rightChild.LowerBound = nodeNow.LowerBound.Copy();
-            rightChild.UpperBound = nodeNow.UpperBound.Copy();
-            rightChild.LowerBound.InputValue[nodeNow.PivotVariable].ValueCell = nodeNow.PivotValue;
 
-            //nodeNow.LeftChild = leftChild;
-            //nodeNow.RightChild = rightChild;
+            nodeNow.LeftChild = leftChild;
+            nodeNow.RightChild = rightChild;
             if (leftRow.Count > maxPointInLeaf) 
                 RecursiveRun(leftRow, depth + 1, leftChild);
             if (rightRow.Count > maxPointInLeaf) 
