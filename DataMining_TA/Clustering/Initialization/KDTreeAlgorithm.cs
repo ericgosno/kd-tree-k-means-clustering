@@ -135,11 +135,11 @@ namespace Clustering.Initialization
             Dictionary<Leaf, double> rank = new Dictionary<Leaf, double>();
             if(useDensityRank)
             {
-            for (int i = 0; i < leafBucket.Count; i++)
-            {
-                rank[leafBucket[i]] = leafBucket.Count - i;
-            }
+                for (int i = 0; i < leafBucket.Count; i++)
+                {
+                    rank[leafBucket[i]] = leafBucket.Count - i;
                 }
+            }
             int x = leafBucket.Count;
             // Outlier Removal(if useOutlierRemoval == true)
             int NumRemoval = leafBucket.Count / 5;
