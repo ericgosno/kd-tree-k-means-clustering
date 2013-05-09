@@ -224,6 +224,60 @@ namespace Extension
             }
             return report;
         }
+
+        /// <summary>
+        /// Calculates Dataset's Total Entropy
+        /// </summary>
+        /// <param name="outputVariables">The output variables.</param>
+        /// <returns></returns>
+        public double CalculateENTotal(Variables outputVariables)
+        {
+            //Calculate ENTotal
+            double ENTotal = 0.0;
+            int numPoint = this.listRow.Count;
+            Dictionary<object, int> numberPointPerClass = new Dictionary<object, int>();
+            foreach (Row row in this.listRow)
+            {
+                if (!row.OutputValue.ContainsKey(outputVariables))
+                {
+                    numPoint--;
+                    continue;
+                }
+                object value = row.OutputValue[outputVariables].ValueCell;
+                if (outputVariables is ContinueVariable)
+                {
+                    //Continue Variable
+                    // this must be discretized
+                    ContinueVariable var = outputVariables as ContinueVariable;
+                    double valDouble = Convert.ToDouble(value);
+                    object realMark = null;
+                    foreach (object obj in var.LimitParamVariables.Keys)
+                    {
+                        if (var.LimitParamVariables[obj].Key <= valDouble && var.LimitParamVariables[obj].Value >= valDouble)
+                        {
+                            realMark = obj;
+                        }
+                    }
+                    if (realMark == null)
+                    {
+                        numPoint--;
+                        continue;
+                    }
+                    value = realMark;
+                }
+                if (numberPointPerClass.ContainsKey(value)) numberPointPerClass[value]++;
+                else numberPointPerClass[value] = 1;
+            }
+            foreach (int numObj in numberPointPerClass.Values)
+            {
+                double doubleNum = Convert.ToDouble(numObj) / Convert.ToDouble(numPoint);
+                double logval = Math.Log(doubleNum,2.0);
+                double all = doubleNum * logval;
+                ENTotal += all;
+            }
+            ENTotal *= -1.0;
+            return ENTotal;
+        }
         #endregion
     }
 }

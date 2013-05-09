@@ -12,7 +12,7 @@ namespace DebuggerConsole
 {
     class Template_BagOfWord_Debug
     {
-        public static void run()
+        public static Dataset run()
         {
             List<Variables> inputVariables = new List<Variables>();
             List<Variables> outputVariables = new List<Variables>();
@@ -179,36 +179,8 @@ namespace DebuggerConsole
             dataset = tfidf.Run(dataset);
             Console.WriteLine("Finish TF-IDF");
 
-            List<string> buf;
+            return dataset;
             /*
-            buf = dataset.PrintDatasetInputVariableDetail();
-            for (int i = 0; i < buf.Count; i++)
-            {
-                Console.WriteLine(buf[i]);
-                System.Threading.Thread.Sleep(1000);
-            }
-            buf.Clear();
-            Console.ReadLine();
-            
-            buf = dataset.PrintDatasetOutputVariableDetail();
-            for (int i = 0; i < buf.Count; i++)
-            {
-                Console.WriteLine(buf[i]);
-                System.Threading.Thread.Sleep(1000);
-            }
-            buf.Clear();
-            Console.ReadLine();
-            
-            buf = dataset.PrintDatasetRowDetail(false,true);
-            for (int i = 0; i < buf.Count; i++)
-            {
-                Console.WriteLine(buf[i]);
-                System.Threading.Thread.Sleep(50);
-            }
-            buf.Clear();
-            Console.ReadLine();
-            */
-
             IClustering clusterMethod = new ClusteringKMeans(10, 1000, false, ref rnd, dataset);
             ClusteringResult clusters = clusterMethod.Run();
             List<string> report = clusters.PrintCompleteResult();
@@ -222,6 +194,7 @@ namespace DebuggerConsole
             for (int i = 0; i < report2.Count; i++) Console.WriteLine(report2[i]);
             System.IO.File.WriteAllLines(base_url + @"output2.txt", report2);
             string hold = Console.ReadLine();
+             */
         }
     }
 }

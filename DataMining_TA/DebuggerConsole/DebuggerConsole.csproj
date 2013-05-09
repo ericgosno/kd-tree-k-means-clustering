@@ -44,9 +44,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BagOfWord-Debug.cs" />
+    <Compile Include="ImageSegmentation-Debug.cs" />
     <Compile Include="PenDigits-Debug.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StandardClusteringTesting.cs" />
     <Compile Include="Template-BagOfWord-Debug.cs" />
   </ItemGroup>
   <ItemGroup>

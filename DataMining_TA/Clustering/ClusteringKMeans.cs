@@ -99,7 +99,7 @@ namespace Clustering
             this.clusters = new List<Cluster>();
             this.rnd = new Random();
             isNormalize = false;
-            initializationMethod = new KDTreeAlgorithm(numCluster, false,false);
+            initializationMethod = new KDTreeAlgorithm(numCluster, false,true);
         }
 
         /// <summary>
@@ -138,7 +138,7 @@ namespace Clustering
             this.rnd = rnd;
             this.isNormalize = isNormalized;
             this.dataset = dataset;
-            this.initializationMethod = new KDTreeAlgorithm(numCluster, dataset, false,false);
+            this.initializationMethod = new KDTreeAlgorithm(numCluster, dataset, false,true);
         }
 
         /// <summary>
@@ -297,7 +297,7 @@ namespace Clustering
             int lastRep = numRep;
             for (int i = 0; i < numRep; i++)
             {
-                Console.WriteLine("Repetition #" + (i + 1).ToString());
+                //Console.WriteLine("Repetition #" + (i + 1).ToString());
                 if (!KMeanRep(tmpDataset.ListRow))
                 {
                     lastRep = i+1;
