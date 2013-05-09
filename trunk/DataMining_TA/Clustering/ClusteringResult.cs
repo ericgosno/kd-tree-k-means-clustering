@@ -141,6 +141,14 @@ namespace Clustering
             ans.Add("In " + numRep + " Repetitions");
             ans.Add("In " + runningTime + " ms");
             ans.Add("Total Distortion : " + calculateSSE().ToString());
+            if (this.dataset.OutputVariables.Count > 0)
+            {
+                ans.Add("Normalized Information Gain : ");
+                for (int i = 0; i < this.dataset.OutputVariables.Count; i++)
+                {
+                    ans.Add("NIG " + this.dataset.OutputVariables[i].NameVariables + " : " + CalculateNIG(this.dataset.OutputVariables[i]));
+                }
+            }
             return ans;
         }
 
@@ -193,7 +201,7 @@ namespace Clustering
         }
 
         /// <summary>
-        /// Calculates the SSE.
+        /// Calculates the Distortion/SSE.
         /// </summary>
         /// <returns></returns>
         public double calculateSSE()
@@ -204,6 +212,26 @@ namespace Clustering
                 ans += clusters[i].calculateSSE();
             }
             return ans;
+        }
+
+        /// <summary>
+        /// Calculates the NIG(Normalized Information Gain).
+        /// </summary>
+        /// <param name="outputVariables">The output variables.</param>
+        /// <returns></returns>
+        public double CalculateNIG(Variables outputVariables)
+        {
+            double ENTotal = dataset.CalculateENTotal(outputVariables);
+            double weightedEN = 0.0;
+            foreach (Cluster cluster in clusters)
+            {
+                double percent = (Convert.ToDouble(cluster.MemberCluster.Count) / Convert.ToDouble(this.dataset.ListRow.Count));
+                double ENCluster = cluster.CalculateENCluster(outputVariables);
+                double singleWEN =  percent * ENCluster;
+                weightedEN += singleWEN;
+            }
+            double NIG = (ENTotal - weightedEN) / ENTotal;
+            return NIG;
         }
         #endregion
     }

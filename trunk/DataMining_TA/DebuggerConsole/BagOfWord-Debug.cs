@@ -11,7 +11,7 @@ namespace DebuggerConsole
 {
     class BagOfWord_Debug
     {
-        public static void run()
+        public static Dataset run()
         {
             List<Variables> listVariables = new List<Variables>();
             List<Row> listRow = new List<Row>();
@@ -96,8 +96,11 @@ namespace DebuggerConsole
             }
             Console.WriteLine("Finish Read document!");
             Random rnd = new Random();
-
+            
             Dataset dataset = new Dataset("Bag of Word Dataset", listRow, listVariables, new List<Variables>());
+
+            return dataset;
+            /*
             IClustering clusterMethod = new ClusteringKMeans(10, 1000, false, ref rnd, dataset);
             ClusteringResult clusters = clusterMethod.Run();
             List<string> report = clusters.PrintCompleteResult();
@@ -111,6 +114,7 @@ namespace DebuggerConsole
             for (int i = 0; i < report.Count; i++) Console.WriteLine(report2[i]);
             System.IO.File.WriteAllLines(base_url + @"output2.txt", report2);
             string hold = Console.ReadLine();
+             */
         }
     }
 }

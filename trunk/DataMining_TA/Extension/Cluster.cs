@@ -74,34 +74,75 @@ namespace Extension
         #endregion
 
         #region public_function
+        /// <summary>
+        /// Calculates the SSE.
+        /// </summary>
+        /// <returns></returns>
         public double calculateSSE()
         {
-            double temp;
-            double ans = 0.0;
+            double totalans = 0.0;
             for (int i = 0; i < memberCluster.Count; i++)
             {
-                foreach (Variables c in centroid.InputValue.Keys)
-                {
-                    if (memberCluster[i].InputValue.ContainsKey(c))
-                    {
-                        temp = Convert.ToDouble(memberCluster[i].InputValue[c].ValueCell) - Convert.ToDouble(centroid.InputValue[c].ValueCell);
-                    }
-                    else
-                    {
-                        temp = Convert.ToDouble(centroid.InputValue[c].ValueCell);
-                    }
-                    ans += (temp * temp);
-                }
-                foreach (Variables c in memberCluster[i].InputValue.Keys)
-                {
-                    if (!centroid.InputValue.ContainsKey(c))
-                    {
-                        temp = Convert.ToDouble(memberCluster[i].InputValue[c].ValueCell);
-                        ans += (temp * temp);
-                    }
-                }                
+                double dist = memberCluster[i].EuclideanDistance(centroid);
+                totalans += (dist * dist);
             }
-            return ans;
+            return totalans;
+        }
+
+        /// <summary>
+        /// Calculates Cluster's Total Entropy
+        /// </summary>
+        /// <param name="outputVariables">The output variables.</param>
+        /// <returns></returns>
+        public double CalculateENCluster(Variables outputVariables)
+        {
+            //Calculate ENTotal
+            double ENTotal = 0.0;
+            int numPoint = this.memberCluster.Count;
+            Dictionary<object, int> numberPointPerClass = new Dictionary<object, int>();
+            foreach (Row row in this.memberCluster)
+            {
+                if (!row.OutputValue.ContainsKey(outputVariables))
+                {
+                    numPoint--;
+                    continue;
+                }
+                object value = row.OutputValue[outputVariables].ValueCell;
+                if (outputVariables is ContinueVariable)
+                {
+                    //Continue Variable
+                    // this must be discretized
+                    ContinueVariable var = outputVariables as ContinueVariable;
+                    double valDouble = Convert.ToDouble(value);
+                    object realMark = null;
+                    foreach (object obj in var.LimitParamVariables.Keys)
+                    {
+                        if (var.LimitParamVariables[obj].Key <= valDouble && var.LimitParamVariables[obj].Value >= valDouble)
+                        {
+                            realMark = obj;
+                        }
+                    }
+                    if (realMark == null)
+                    {
+                        numPoint--;
+                        continue;
+                    }
+                    value = realMark;
+                }
+                if (numberPointPerClass.ContainsKey(value)) numberPointPerClass[value]++;
+                else numberPointPerClass[value] = 1;
+            }
+            double tes = 0.0;
+            foreach (int numObj in numberPointPerClass.Values)
+            {
+                double doubleNum = Convert.ToDouble(numObj) / Convert.ToDouble(numPoint);
+                tes += doubleNum;
+                double lognum = Math.Log(doubleNum, 2.0);
+                double ENk = doubleNum * lognum;
+                ENTotal += ENk;
+            }
+            ENTotal *= -1.0;
+            return ENTotal;
         }
         #endregion
     }

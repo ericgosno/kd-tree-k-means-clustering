@@ -11,7 +11,7 @@ namespace DebuggerConsole
 {
     class PenDigits_Debug
     {
-        public static void run()
+        public static Dataset run()
         {
             List<Variables> inputVariables = new List<Variables>();
             List<Variables> outputVariables = new List<Variables>();
@@ -27,12 +27,13 @@ namespace DebuggerConsole
                 Variables news = new ContinueVariable("Var#" + (i + 1).ToString());
                 inputVariables.Add(news);
             }
-            Variables outputVar = new DiscreetVariable("Output1");
-            outputVariables.Add(outputVar);
+            CategoricalVariable outputVar = new CategoricalVariable("Output1");
+            for (int i = 0; i < 9; i++) outputVar.ParamVariables.Add(i, i);
+            outputVariables.Add(outputVar as Variables);
 
             try
             {
-                fileStream = new FileStream(base_url + @"pendigits.tra", FileMode.Open);
+                fileStream = new FileStream(base_url + @"pendigits.all", FileMode.Open);
                 streamReader = new StreamReader(fileStream);
 
                 while (true)
@@ -78,7 +79,9 @@ namespace DebuggerConsole
 
 
             Dataset dataset = new Dataset("Pen Digits Dataset",listRow, inputVariables, outputVariables);
+            return dataset;
 
+            /*
             IClustering clusterMethod = new ClusteringKMeans(10, 1000, false, ref rnd, dataset);
             ClusteringResult clusters = clusterMethod.Run();
             List<string> report = clusters.PrintCompleteResult();
@@ -92,6 +95,7 @@ namespace DebuggerConsole
             for (int i = 0; i < report2.Count; i++) Console.WriteLine(report2[i]);
             System.IO.File.WriteAllLines(base_url + @"output2.txt", report2);
             string hold = Console.ReadLine();
+             */
         }
 
     }

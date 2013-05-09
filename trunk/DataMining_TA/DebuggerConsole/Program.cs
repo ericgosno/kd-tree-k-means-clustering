@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using Extension;
 
 namespace DebuggerConsole
 {
@@ -10,8 +10,12 @@ namespace DebuggerConsole
     {
         static void Main(string[] args)
         {
-            //PenDigits_Debug.run();
-            Template_BagOfWord_Debug.run();
+            Dataset dataset = null;
+            dataset = PenDigits_Debug.run();
+            //Template_BagOfWord_Debug.run();
+            //dataset = ImageSegmentation_Debug.run();
+            StandardClusteringTesting.run(dataset,10);
+            string hold = Console.ReadLine();
         }
     }
 }

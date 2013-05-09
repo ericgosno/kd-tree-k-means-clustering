@@ -97,7 +97,7 @@ namespace Clustering.Initialization
                 return null;
             }
 
-            Dataset tmpDataset = this.dataset;//dataset.Copy();
+            Dataset tmpDataset = dataset.Copy();
             List<Row> centroid = new List<Row>();
             Random rnd = new Random(DateTime.Now.Millisecond);
             for (int i = 0; i < numK; i++)

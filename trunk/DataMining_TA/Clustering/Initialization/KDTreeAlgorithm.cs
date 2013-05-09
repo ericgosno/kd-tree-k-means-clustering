@@ -125,7 +125,8 @@ namespace Clustering.Initialization
             List<Row> centroid = new List<Row>();
             // Algorithm start here
             // Build KD-Tree
-            KDTree kdtree = new KDTree(tmpDataset, tmpDataset.ListRow.Count / (10 * numK));
+            // New journal on ScienceDirect to make bucket contains 20 or less point instead of (number of point / 10 * K)
+            KDTree kdtree = new KDTree(tmpDataset, 20); //tmpDataset.ListRow.Count / (10 * numK));
             kdtree.Run();
             List<Leaf> leafBucket = kdtree.ListBucketLeaf;
             //List<Leaf> leafBucket = kdtree.TraceLeafBucket();
@@ -253,6 +254,7 @@ namespace Clustering.Initialization
             List<string> ans = new List<string>();
             ans.Add("Initialization Method : KD-Tree Algorithm");
             ans.Add("Use Outlier Removal : " + (useOutlierRemoval ? "true" : "false"));
+            ans.Add("Use Density Rank : " + (useDensityRank ? "true" : "false"));
             return ans;
         }
         #endregion
