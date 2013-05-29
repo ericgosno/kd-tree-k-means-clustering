@@ -127,7 +127,7 @@ namespace Clustering.Initialization
             // Build KD-Tree
             // New journal on ScienceDirect to make bucket contains 20 or less point instead of (number of point / 10 * K)
             KDTree kdtree = new KDTree(tmpDataset, 20); //tmpDataset.ListRow.Count / (10 * numK));
-            kdtree.Run();
+            Console.WriteLine("KD-Tree : " + kdtree.RunWithTime());
             List<Leaf> leafBucket = kdtree.ListBucketLeaf;
             //List<Leaf> leafBucket = kdtree.TraceLeafBucket();
             

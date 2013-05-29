@@ -7,6 +7,8 @@ using Extension;
 using Clustering;
 using Clustering.Initialization;
 using TFIDF;
+using FeatureSelection.Supervised;
+using FeatureSelection.Unsupervised;
 
 namespace DebuggerConsole
 {
@@ -175,26 +177,41 @@ namespace DebuggerConsole
             Random rnd = new Random();
 
             Dataset dataset = new Dataset("Newsgroup Dataset", listRow, inputVariables, outputVariables);
+            
             TFIDF.TFIDF tfidf = new TFIDF.TFIDF();
             dataset = tfidf.Run(dataset);
             Console.WriteLine("Finish TF-IDF");
+            
+            // Supervised Feature Selection 
+            //ISupervisedFS isfs = new InformationGainFS();
+            //dataset = isfs.Run(dataset, dataset.OutputVariables[0]);
 
-            return dataset;
+            // Unsupervised Feature Selection Term Contribution
+            //IUnsupervisedFS iufs = new TermContributionFS();
+            //IUnsupervisedFS iufs = new FeatureDispersionFS();
+            //IUnsupervisedFS iufs = new DocumentFrequencyFS();
+            //IUnsupervisedFS iufs = new PrincipalComponentAnalysisFS();
+            //IUnsupervisedFS iufs = new TermVarianceFS();
+            //dataset = iufs.Run(dataset, FeatureToKeep);
+
             /*
-            IClustering clusterMethod = new ClusteringKMeans(10, 1000, false, ref rnd, dataset);
+            IClustering clusterMethod = new ClusteringKMeans(20, 1000, false, ref rnd, dataset);
             ClusteringResult clusters = clusterMethod.Run();
             List<string> report = clusters.PrintCompleteResult();
             for (int i = 0; i < report.Count; i++) Console.WriteLine(report[i]);
             System.IO.File.WriteAllLines(base_url + @"output.txt", report);
+            string hold = Console.ReadLine();
 
-
+            
             IClustering clusterMethod2 = new ClusteringKMeans(10, 1000, false, ref rnd, dataset, new ForgyAlgorithm(10, dataset));
             ClusteringResult clusters2 = clusterMethod2.Run();
-            List<string> report2 = clusters.PrintCompleteResult();
+            List<string> report2 = clusters2.PrintCompleteResult();
             for (int i = 0; i < report2.Count; i++) Console.WriteLine(report2[i]);
             System.IO.File.WriteAllLines(base_url + @"output2.txt", report2);
-            string hold = Console.ReadLine();
-             */
+            string hold2 = Console.ReadLine();
+            */
+            return dataset;
         }
     }
 }
+

@@ -2,20 +2,18 @@
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{4F75F1B8-CFEB-40D8-8AB7-EC455C96B685}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{82566D11-7370-42E0-968B-8045EEADD04F}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DebuggerConsole</RootNamespace>
-    <AssemblyName>DebuggerConsole</AssemblyName>
+    <RootNamespace>FeatureSelection</RootNamespace>
+    <AssemblyName>FeatureSelection</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -24,8 +22,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -34,6 +31,27 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Accord">
+      <HintPath>External Library\Accord.dll</HintPath>
+    </Reference>
+    <Reference Include="Accord.Controls">
+      <HintPath>External Library\Accord.Controls.dll</HintPath>
+    </Reference>
+    <Reference Include="Accord.Controls.Audio">
+      <HintPath>External Library\Accord.Controls.Audio.dll</HintPath>
+    </Reference>
+    <Reference Include="Accord.Controls.Imaging">
+      <HintPath>External Library\Accord.Controls.Imaging.dll</HintPath>
+    </Reference>
+    <Reference Include="Accord.Controls.Vision">
+      <HintPath>External Library\Accord.Controls.Vision.dll</HintPath>
+    </Reference>
+    <Reference Include="Accord.Math">
+      <HintPath>External Library\Accord.Math.dll</HintPath>
+    </Reference>
+    <Reference Include="Accord.Statistics">
+      <HintPath>External Library\Accord.Statistics.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -43,30 +61,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BagOfWord-Debug.cs" />
-    <Compile Include="ImageSegmentation-Debug.cs" />
-    <Compile Include="PenDigits-Debug.cs" />
-    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StandardClusteringTesting.cs" />
-    <Compile Include="Template-BagOfWord-Debug.cs" />
+    <Compile Include="Supervised\InformationGainFS.cs" />
+    <Compile Include="Supervised\ISupervisedFS.cs" />
+    <Compile Include="Unsupervised\DocumentFrequencyFS.cs" />
+    <Compile Include="Unsupervised\FeatureDispersionFS.cs" />
+    <Compile Include="Unsupervised\IUnsupervisedFS.cs" />
+    <Compile Include="Unsupervised\PrincipalComponentAnalysisFS.cs" />
+    <Compile Include="Unsupervised\TermContributionFS.cs" />
+    <Compile Include="Unsupervised\TermVarianceFS.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Clustering\Clustering.csproj">
-      <Project>{6F1E77B4-ED97-48A1-9E6B-3EA3C26AD2C4}</Project>
-      <Name>Clustering</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Extension\Extension.csproj">
       <Project>{83C8C9E9-C623-4184-9CA5-F863488BA766}</Project>
       <Name>Extension</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\FeatureSelection\FeatureSelection.csproj">
-      <Project>{82566D11-7370-42E0-968B-8045EEADD04F}</Project>
-      <Name>FeatureSelection</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\TFIDF\TFIDF.csproj">
-      <Project>{AA56C82C-C84F-4B85-8BE0-2C5CD227710C}</Project>
-      <Name>TFIDF</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

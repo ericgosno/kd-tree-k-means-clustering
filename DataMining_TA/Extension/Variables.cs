@@ -57,7 +57,6 @@ namespace Extension
             get { return limitVariables; }
             set { limitVariables = value; }
         }
-
         public string NameVariables
         {
             get { return nameVariables; }

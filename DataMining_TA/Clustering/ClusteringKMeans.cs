@@ -297,11 +297,11 @@ namespace Clustering
             int lastRep = numRep;
             for (int i = 0; i < numRep; i++)
             {
-                //Console.WriteLine("Repetition #" + (i + 1).ToString());
+                Console.WriteLine("Repetition #" + (i + 1).ToString());
                 if (!KMeanRep(tmpDataset.ListRow))
                 {
                     lastRep = i+1;
-                    //Console.WriteLine("Finished at Repetition #" + (i + 1).ToString());
+                    Console.WriteLine("Finished at Repetition #" + (i + 1).ToString());
                     break;
                 }
             }
