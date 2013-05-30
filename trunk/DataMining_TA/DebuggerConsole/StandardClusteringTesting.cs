@@ -18,6 +18,11 @@ namespace DebuggerConsole
             List<string> totalReport = new List<string>();
             double minDistortionKDTree = double.MaxValue;
             double minDistortionForgy = double.MaxValue;
+            double minKDTreeTime = double.MaxValue;
+            double maxKDTreeTime = double.MinValue;
+            double minForgyTime = double.MaxValue;
+            double maxForgyTime = double.MinValue;
+
             List<double> listSSEForgy = new List<double>();
             List<double> maxNIGKDTree = new List<double>();
             List<double> maxNIGForgy = new List<double>();
@@ -39,6 +44,8 @@ namespace DebuggerConsole
             {
                 IClustering clusterMethod = new ClusteringKMeans(numCluster, 1000, false, ref rnd, dataset, new KDTreeAlgorithm(numCluster, dataset, Convert.ToBoolean(j), true));
                 ClusteringResult clusters = clusterMethod.Run();
+                minKDTreeTime = Math.Min(minKDTreeTime, clusters.RunningTime);
+                maxKDTreeTime = Math.Max(maxKDTreeTime, clusters.RunningTime);
                 minDistortionKDTree = Math.Min(minDistortionKDTree, clusters.calculateSSE());
                 for (int i = 0; i < dataset.OutputVariables.Count; i++)
                 {
@@ -58,6 +65,8 @@ namespace DebuggerConsole
                 ClusteringResult clusters2 = clusterMethod2.Run();
                 double SSENow = clusters2.calculateSSE();
                 listSSEForgy.Add(SSENow);
+                minForgyTime = Math.Min(minForgyTime, clusters2.RunningTime);
+                maxForgyTime = Math.Max(maxForgyTime, clusters2.RunningTime);
                 minDistortionForgy = Math.Min(minDistortionForgy, SSENow);
                 meanDistortionForgy += SSENow;
                 for (int i = 0; i < dataset.OutputVariables.Count; i++)
@@ -86,6 +95,10 @@ namespace DebuggerConsole
 
             totalReport.Add("DATASET : ");
             totalReport.AddRange(dataset.PrintDatasetDetail());
+            totalReport.Add("Min KD-Tree Time : " + minKDTreeTime);
+            totalReport.Add("Max KD-Tree Time : " + maxKDTreeTime);
+            totalReport.Add("Min Forgy Time : " + minForgyTime);
+            totalReport.Add("Max Forgy Time : " + maxForgyTime);
             totalReport.Add("Min SSE KD-Tree : " + minDistortionKDTree);
             totalReport.Add("Min SSE Forgy : " + minDistortionForgy);
             totalReport.Add("Mean SSE Forgy : " + meanDistortionForgy);
