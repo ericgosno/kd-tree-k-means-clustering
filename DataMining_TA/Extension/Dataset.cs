@@ -142,8 +142,17 @@ namespace Extension
         public Dataset Copy()
         {
             Dataset news = new Dataset();
-            news.InputVariables = this.inputVariables;
-            news.outputVariables = this.outputVariables;
+            news.inputVariables = new List<Variables>();
+            news.outputVariables = new List<Variables>();
+            for (int i = 0; i < this.inputVariables.Count; i++)
+            {
+                news.inputVariables.Add(this.inputVariables[i]);
+            }
+            for (int i = 0; i < this.outputVariables.Count; i++)
+            {
+                news.outputVariables.Add(this.outputVariables[i]);
+            }
+
             news.titleDataset = this.titleDataset;
             news.isCalculatedFrequency = this.isCalculatedFrequency;
             for (int i = 0; i < this.listRow.Count; i++)
