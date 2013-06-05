@@ -24,6 +24,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Extension
 {
@@ -31,7 +33,8 @@ namespace Extension
     /// Class DiscreetVariable
     /// Store information about Discreet Type Variable
     /// </summary>
-    public class DiscreetVariable :  Variables
+    [Serializable()]
+    public class DiscreetVariable :  Variables, ISerializable
     {
         #region constructor
 
@@ -74,6 +77,18 @@ namespace Extension
             report.Add("Variable Type : Discreet Variable");
             report.AddRange(base.PrintVariableDetail());
             return report;
+        }
+        #endregion
+
+        #region implementation Iserializeable
+        public DiscreetVariable(SerializationInfo info, StreamingContext ctxt)
+            : base(info,ctxt)
+        {
+
+        }
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+
         }
         #endregion
     }

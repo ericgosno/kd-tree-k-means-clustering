@@ -211,7 +211,7 @@ namespace FeatureSelection.Unsupervised
             }
 
             // sort term by its IG value (Decreasing Order)
-            tmpDataset.InputVariables.Sort((t1, t2) => termMark[t2].CompareTo(termMark[t1])); //still unsure with this delegate >_<
+            tmpDataset.InputVariables.Sort((t1, t2) => termMark[t2].CompareTo(termMark[t1])); 
 
             // If number of Term > Max Feature then remove some lowest mark Term
 
@@ -245,7 +245,7 @@ namespace FeatureSelection.Unsupervised
         }
         #endregion
 
-        #region Implementation ISupervisedFS
+        #region Implementation IDispersionMeasure
         public Dataset Run(Dataset dataset)
         {
             this.dataset = dataset;

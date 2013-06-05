@@ -24,6 +24,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Xml.Serialization;
+using System.IO;
+using System.Xml;
 
 namespace Extension
 {
@@ -32,7 +37,8 @@ namespace Extension
     /// Contains List Row, List Variables, and List Class
     /// Core Information for Data Processing
     /// </summary>
-    public class Dataset
+    [Serializable()]
+    public class Dataset : ISerializable
     {
         #region private_or_protected_properties
         private List<Row> listRow;
@@ -135,6 +141,31 @@ namespace Extension
         #endregion
 
         #region public_function
+        public void Save(string url)
+        {
+            var serializer = new DataContractSerializer(typeof(Dataset));
+            string xmlString;
+            using (var sw = new StringWriter())
+            {
+                using (var writer = new XmlTextWriter(sw))
+                {
+                    writer.Formatting = Formatting.Indented; // indent the Xml so it's human readable
+                    serializer.WriteObject(writer, this);
+                    writer.Flush();
+                    xmlString = sw.ToString();
+                    List<string> tes = new List<string>();
+                    tes.Add(xmlString);
+                    File.WriteAllLines(url, tes);
+                }
+            }
+                //XmlSerializer xmlserial = new XmlSerializer(typeof(Dataset));
+                //StreamWriter streamw = File.CreateText(url);
+                //Stream stream = File.OpenWrite(url);
+                //streamw.Position = 0;
+                //xmlserial.Serialize(streamw, this);
+                //streamw.Close();
+        }
+
         /// <summary>
         /// Copies this instance.
         /// </summary>
@@ -286,6 +317,39 @@ namespace Extension
             }
             ENTotal *= -1.0;
             return ENTotal;
+        }
+        #endregion
+
+        #region implementation Iserializeable
+        public Dataset(SerializationInfo info, StreamingContext ctxt)
+        {
+            try
+            {
+                this.titleDataset = (string)info.GetValue("Title", typeof(string));
+            }
+            catch (Exception ex) { this.titleDataset = this.GetHashCode().ToString(); }
+            try
+            {
+                this.listRow = (List<Row>)info.GetValue("Rows", typeof(List<Row>));
+            }
+            catch (Exception ex) { this.listRow = new List<Row>(); }
+            try
+            {
+                this.inputVariables = (List<Variables>)info.GetValue("InputVariables", typeof(List<Variables>));
+            }
+            catch (Exception ex) { this.inputVariables = new List<Variables>(); }
+            try
+            {
+                this.outputVariables = (List<Variables>)info.GetValue("OutputVariables", typeof(List<Variables>));
+            }
+            catch (Exception ex) { this.outputVariables = new List<Variables>(); }
+        }
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("Title", this.titleDataset);
+            info.AddValue("Rows", this.listRow);
+            info.AddValue("InputVariables", this.inputVariables);
+            info.AddValue("OutputVariables", this.outputVariables);
         }
         #endregion
     }

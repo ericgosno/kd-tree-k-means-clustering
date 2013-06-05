@@ -24,6 +24,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Extension
 {
@@ -31,7 +33,8 @@ namespace Extension
     /// Row Object
     /// Dataset's singular entity/data point
     /// </summary>
-    public class Row
+    [Serializable()]
+    public class Row : ISerializable
     {
         #region private_or_protected_properties
         private Dictionary<Variables, Cell> inputValue;
@@ -170,6 +173,33 @@ namespace Extension
                 }
             }
             return report;
+        }
+        #endregion
+
+        #region implementation Iserializeable
+        public Row(SerializationInfo info, StreamingContext ctxt)
+        {
+            try
+            {
+                this.rowIdentificator = (string)info.GetValue("Title", typeof(string));
+            }
+            catch (Exception ex) { this.rowIdentificator = this.GetHashCode().ToString(); }
+            try
+            {
+                this.inputValue = (Dictionary<Variables, Cell>)info.GetValue("InputVariables", typeof(Dictionary<Variables, Cell>));
+            }
+            catch (Exception ex) { this.inputValue = new Dictionary<Variables, Cell>(); }
+            try
+            {
+                this.outputValue = (Dictionary<Variables, Cell>)info.GetValue("OutputVariables", typeof(Dictionary<Variables, Cell>));
+            }
+            catch (Exception ex) { this.outputValue = new Dictionary<Variables, Cell>(); }
+        }
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("Title", this.rowIdentificator);
+            info.AddValue("InputVariables", this.inputValue);
+            info.AddValue("OutputVariables", this.outputValue);
         }
         #endregion
     }

@@ -64,17 +64,29 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Supervised\InformationGainFS.cs" />
     <Compile Include="Supervised\ISupervisedFS.cs" />
-    <Compile Include="Unsupervised\DocumentFrequencyFS.cs" />
-    <Compile Include="Unsupervised\FeatureDispersionFS.cs" />
+    <Compile Include="Unsupervised\RelevanceFS.cs" />
+    <Compile Include="Unsupervised\RelevanceRedudanceFS.cs" />
+    <Compile Include="Unsupervised\SimilarityMeasure\AbsoluteCosineSimilarity.cs" />
+    <Compile Include="Unsupervised\SimilarityMeasure\ISimilarityMeasure.cs" />
+    <Compile Include="Unsupervised\DispersionMeasure\AMGMFS.cs" />
+    <Compile Include="Unsupervised\DispersionMeasure\DocumentFrequencyFS.cs" />
+    <Compile Include="Unsupervised\DispersionMeasure\FeatureDispersionFS.cs" />
+    <Compile Include="Unsupervised\DispersionMeasure\MeanAbsoluteDifferenceFS.cs" />
+    <Compile Include="Unsupervised\DispersionMeasure\MeanMedianFS.cs" />
     <Compile Include="Unsupervised\IUnsupervisedFS.cs" />
     <Compile Include="Unsupervised\PrincipalComponentAnalysisFS.cs" />
-    <Compile Include="Unsupervised\TermContributionFS.cs" />
-    <Compile Include="Unsupervised\TermVarianceFS.cs" />
+    <Compile Include="Unsupervised\DispersionMeasure\IDispersionMeasure.cs" />
+    <Compile Include="Unsupervised\DispersionMeasure\TermContributionFS.cs" />
+    <Compile Include="Unsupervised\DispersionMeasure\TermVarianceFS.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Extension\Extension.csproj">
       <Project>{83C8C9E9-C623-4184-9CA5-F863488BA766}</Project>
       <Name>Extension</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\K-D Tree\K-D Tree.csproj">
+      <Project>{E42796DF-B1F8-46B3-8F58-D8E53A5163DD}</Project>
+      <Name>K-D Tree</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -27,16 +27,16 @@ using System.Text;
 using System.Diagnostics;
 using Extension;
 
-namespace FeatureSelection.Unsupervised
+namespace FeatureSelection.Unsupervised.DispersionMeasure
 {
     /// <summary>
-    /// Feature Ranking/Selection/Reduction using Term Contribution
+    /// Dispersion Measure for Relevance Filter using Term Contribution
     /// This is a Unsupervised Method so it's don't need a class/label in the process
     /// Directly Implemented from journal 
     /// "An Evaluation on Feature Clustering for Text Clustering" 
     /// (Liu,ICML-2003)
     /// </summary>
-    public class TermContributionFS : IUnsupervisedFS
+    public class TermContributionFS : IDispersionMeasure
     {
         #region private_or_protected_properties
         /// <summary>
@@ -104,18 +104,11 @@ namespace FeatureSelection.Unsupervised
         }
         #endregion
 
-        #region public_function
-        public Dataset Run()
+        #region private_function
+        private Dictionary<Variables, double> CalculateTermMark(Dataset tmpDataset)
         {
-            if (this.dataset == null)
-            {
-                return this.dataset;
-            }
-
-            List<Variables> RemovedVariables = new List<Variables>();
-            Dataset tmpDataset = this.dataset.Copy();
             int numRow = tmpDataset.ListRow.Count;
-            Dictionary<Variables,double> termMark = new Dictionary<Variables,double>();
+            Dictionary<Variables, double> termMark = new Dictionary<Variables, double>();
             Dictionary<Variables, List<double>> listValue = new Dictionary<Variables, List<double>>();
 
             for (int j = 0; j < tmpDataset.ListRow.Count; j++)
@@ -139,74 +132,68 @@ namespace FeatureSelection.Unsupervised
                 termMark[var] = 0.0;
                 for (int i = 0; i < listValue[var].Count; i++)
                 {
-                    for(int j = i+1;j < listValue[var].Count;j++)
+                    for (int j = i + 1; j < listValue[var].Count; j++)
                     {
                         termMark[var] += (listValue[var][i] * listValue[var][j]);
                     }
                 }
             }
 
-            for (int i = 0; i < RemovedVariables.Count; i++)
+
+            return termMark;
+        }
+        #endregion
+
+        #region public_function
+        public override string ToString()
+        {
+            return "TC";
+        }
+        public Dictionary<Variables, double> Run()
+        {
+            if (this.dataset == null)
             {
-                tmpDataset.InputVariables.Remove(RemovedVariables[i]);
+                return null;
             }
 
-            // sort term by its IG value (Decreasing Order)
-            tmpDataset.InputVariables.Sort((t1, t2) => termMark[t2].CompareTo(termMark[t1])); //still unsure with this delegate >_<
-
-            // If number of Term > Max Feature then remove some lowest mark Term
-
-            while (tmpDataset.InputVariables.Count > maxFeature)
-            {
-                Variables lastVar = tmpDataset.InputVariables.Last();
-                RemovedVariables.Add(lastVar);
-                tmpDataset.InputVariables.Remove(lastVar);
-            }
-
-            for (int i = 0; i < tmpDataset.ListRow.Count; i++)
-            {
-                for (int j = 0; j < RemovedVariables.Count; j++)
-                {
-                    tmpDataset.ListRow[i].InputValue.Remove(RemovedVariables[j]);
-                }
-            }
-            tmpDataset.TitleDataset = "TCFS - " + tmpDataset.TitleDataset;
-
-            return tmpDataset;
+            Dataset tmpDataset = this.dataset.Copy();
+            int numRow = tmpDataset.ListRow.Count;
+            Dictionary<Variables, double> termMark = CalculateTermMark(tmpDataset);
+            return termMark;
         }
         /// <summary>
         /// Runs with running time calculation
         /// </summary>
         /// <returns></returns>
-        public KeyValuePair<Dataset, long> RunWithTime()
+        public KeyValuePair<Dictionary<Variables, double>, long> RunWithTime()
         {
             var sw = Stopwatch.StartNew();
-            Dataset ans = this.Run();
+            Dictionary<Variables, double> ans = this.Run();
             long elapsedTime = sw.ElapsedMilliseconds;
-            return new KeyValuePair<Dataset, long>(ans, elapsedTime);
+            return new KeyValuePair<Dictionary<Variables, double>, long>(ans, elapsedTime);
         }
         #endregion
 
-        #region Implementation ISupervisedFS
-        public Dataset Run(Dataset dataset)
+        #region Implementation IDispersionMeasure
+        public Dictionary<Variables, double> Run(Dataset dataset)
         {
             this.dataset = dataset;
             return this.Run();
         }
 
-        public Dataset Run(Dataset dataset, int maxFeature)
+        public Dictionary<Variables, double> Run(Dataset dataset, int maxFeature)
         {
             this.dataset = dataset;
             this.maxFeature = maxFeature;
             return this.Run();
         }
-        public KeyValuePair<Dataset, long> RunWithTime(Dataset dataset)
+        public KeyValuePair<Dictionary<Variables, double>, long> RunWithTime(Dataset dataset)
         {
             this.dataset = dataset;
             return this.RunWithTime();
         }
 
-        public KeyValuePair<Dataset, long> RunWithTime(Dataset dataset, int maxFeature)
+        public KeyValuePair<Dictionary<Variables, double>, long> RunWithTime(Dataset dataset, int maxFeature)
         {
             this.dataset = dataset;
             this.maxFeature = maxFeature;

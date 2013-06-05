@@ -220,7 +220,7 @@ namespace FeatureSelection.Supervised
             }
 
             // sort term by its IG value (Decreasing Order)
-            tmpDataset.InputVariables.Sort((t1, t2) => termMark[t2].CompareTo(termMark[t1])); //still unsure with this delegate >_<
+            tmpDataset.InputVariables.Sort((t1, t2) => termMark[t2].CompareTo(termMark[t1])); 
             Console.WriteLine("max : " + tmpDataset.InputVariables[0].NameVariables + " = " + termMark[tmpDataset.InputVariables[0]]);
             Console.WriteLine("min : " + tmpDataset.InputVariables.Last().NameVariables + " = " + termMark[tmpDataset.InputVariables.Last()]);
 
@@ -255,7 +255,7 @@ namespace FeatureSelection.Supervised
         }
         #endregion
 
-        #region Implementation ISupervisedFS
+        #region Implementation IDispersionMeasure
         public Dataset Run(Dataset dataset, Variables outputVariable)
         {
             this.dataset = dataset;

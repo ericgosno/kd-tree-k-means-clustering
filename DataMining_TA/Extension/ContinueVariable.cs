@@ -24,6 +24,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Extension
 {
@@ -31,6 +33,7 @@ namespace Extension
     /// ContinueVariable Class
     /// Store information about Continuous Type Variable
     /// </summary>
+    [Serializable()]
     public class ContinueVariable : Variables
     {
         #region private_or_protected_properties
@@ -127,6 +130,26 @@ namespace Extension
                 }
             }
             return report;
+        }
+        #endregion
+
+        #region implementation Iserializeable
+        public ContinueVariable(SerializationInfo info, StreamingContext ctxt)
+            : base(info,ctxt)
+        {
+            try
+            {
+                this.limitParamVariables = (Dictionary<object, KeyValuePair<double, double>>)info.GetValue("limitParamVariables", typeof(Dictionary<object, KeyValuePair<double, double>>));
+            }
+            catch(Exception ex)
+            {
+                this.limitParamVariables = new Dictionary<object, KeyValuePair<double, double>>();
+            }
+        }
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            base.GetObjectData(info, context);
+            info.AddValue("limitParamVariables", this.limitParamVariables);
         }
         #endregion
     }
