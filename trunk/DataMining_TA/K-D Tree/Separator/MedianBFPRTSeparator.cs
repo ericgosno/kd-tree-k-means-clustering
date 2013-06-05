@@ -30,7 +30,7 @@ namespace K_D_Tree.Separator
     /// <summary>
     /// Separate Bucket by list points's median using BFPRT Method
     /// </summary>
-    class MedianBFPRTSeparator :  ISeparator
+    public class MedianBFPRTSeparator :  ISeparator
     {
         #region private_or_protected_properties
         private int constValue;

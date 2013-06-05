@@ -24,6 +24,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Extension
 {
@@ -31,7 +33,8 @@ namespace Extension
     /// Class Variable 
     /// Base Class of Variable Object
     /// </summary>
-    public class Variables
+    [Serializable()]
+    public class Variables : ISerializable
     {
         #region private_or_protected_properties
         protected string nameVariables;
@@ -138,6 +141,39 @@ namespace Extension
             if(limitVariables.Key < (double)int.MaxValue)report.Add("Minimum Value : " + limitVariables.Key);
             if (limitVariables.Value > (double)int.MinValue) report.Add("Maximum Value : " + limitVariables.Value);
             return report;
+        }
+        #endregion
+
+        #region implementation Iserializeable
+        public Variables(SerializationInfo info, StreamingContext ctxt)
+        {
+            try
+            {
+                this.nameVariables = (string)info.GetValue("Title", typeof(string));
+            }
+            catch (Exception ex) { this.nameVariables = "Variable#" + this.GetHashCode().ToString(); }
+            try
+            {
+                this.limitVariables = (KeyValuePair<double,double>)info.GetValue("limitVariables",typeof(KeyValuePair<double,double>));
+            }
+            catch(Exception ex1) {this.limitVariables = new KeyValuePair<double,double>(double.MinValue,double.MaxValue); }
+            try
+            {
+                this.rowFrequency = (int)info.GetValue("rowFrequency",typeof(int));
+            }
+            catch(Exception ex2) {this.rowFrequency = -1;}
+            try
+            {  
+                this.termFrequency = (int)info.GetValue("termFrequency",typeof(int));
+            }
+            catch(Exception ex3){this.termFrequency = -1;}
+        }
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("Title", this.nameVariables);
+            info.AddValue("rowFrequency", this.rowFrequency);
+            info.AddValue("termFrequency", this.termFrequency);
+            info.AddValue("limitVariables", this.limitVariables);
         }
         #endregion
     }

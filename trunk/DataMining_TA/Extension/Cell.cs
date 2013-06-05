@@ -24,6 +24,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Extension
 {
@@ -31,6 +33,7 @@ namespace Extension
     /// Row's Cell Object
     /// Contains Value and Pointer to Variable
     /// </summary>
+    [Serializable()]
     public class Cell
     {
         #region private_or_protected_properties
@@ -90,6 +93,26 @@ namespace Extension
             List<string> report = new List<string>();
             report.Add("Cell ==> Var : " + varCell.NameVariables + " Value : " + valueCell.ToString());
             return report;
+        }
+        #endregion
+
+        #region implementation Iserializeable
+        public Cell(SerializationInfo info, StreamingContext ctxt)
+        {
+            try
+            {
+                this.varCell = (Variables)info.GetValue("Variables", typeof(Variables));
+                this.valueCell = (object)info.GetValue("Value", typeof(object));
+            }
+            catch(Exception ex)
+            {
+
+            }
+        }
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("Variables", this.varCell);
+            info.AddValue("Value", this.valueCell);
         }
         #endregion
     }

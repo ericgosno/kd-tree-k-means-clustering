@@ -4,7 +4,10 @@ using System.Linq;
 using System.Text;
 using Extension;
 using FeatureSelection.Unsupervised;
+using FeatureSelection.Unsupervised.DispersionMeasure;
+using FeatureSelection.Unsupervised.SimilarityMeasure;
 
+using System.Xml.Serialization;
 namespace DebuggerConsole
 {
     class Program
@@ -15,153 +18,40 @@ namespace DebuggerConsole
             int FeatureToKeep = 0;
             Dataset newDataset = null;
             Dataset dataset = null;
-
-            IUnsupervisedFS DFFS = new TermVarianceFS();
+            string base_url = @"E:\5109100153 - Eric\tc\";
 
             //dataset = PenDigits_Debug.run();
             dataset = Template_BagOfWord_Debug.run();
+            
+
+            //Try Serializer
+            //Serializer.SerializeObject(base_url + "Dataset - " + dataset.TitleDataset + ".txt", dataset);
+            //dataset = (Dataset)Serializer.DeSerializeObject(base_url + "Dataset - Newsgroup Dataset.txt");
+            //dataset.Save(base_url + "Dataset - " + dataset.TitleDataset + ".xml");
+
+            IUnsupervisedFS DFFS = new RelevanceRedudanceFS();
             newDataset = DFFS.Run(dataset);
+            Serializer.SerializeObject(base_url + "Dataset - " + newDataset.TitleDataset + ".txt", newDataset);
             //dataset = ImageSegmentation_Debug.run();
             StandardClusteringTesting.run(newDataset, 20);
 
-            percentageToKeep = 0.80;
-            FeatureToKeep = Convert.ToInt32(percentageToKeep * Convert.ToDouble(dataset.InputVariables.Count));
-            newDataset = DFFS.Run(dataset, FeatureToKeep);
-            newDataset.TitleDataset = "75% - " + newDataset.TitleDataset;
-            StandardClusteringTesting.run(newDataset, 20);
-
-            percentageToKeep = 0.70;
-            FeatureToKeep = Convert.ToInt32(percentageToKeep * Convert.ToDouble(dataset.InputVariables.Count));
-            newDataset = DFFS.Run(dataset, FeatureToKeep);
-            newDataset.TitleDataset = "70% - " + newDataset.TitleDataset;
-            StandardClusteringTesting.run(newDataset, 20);
-
-            percentageToKeep = 0.60;
-            FeatureToKeep = Convert.ToInt32(percentageToKeep * Convert.ToDouble(dataset.InputVariables.Count));
-            newDataset = DFFS.Run(dataset, FeatureToKeep);
-            newDataset.TitleDataset = "60% - " + newDataset.TitleDataset;
-            StandardClusteringTesting.run(newDataset, 20);
-
-            percentageToKeep = 0.40;
-            FeatureToKeep = Convert.ToInt32(percentageToKeep * Convert.ToDouble(dataset.InputVariables.Count));
-            newDataset = DFFS.Run(dataset, FeatureToKeep);
-            newDataset.TitleDataset = "40% - " + newDataset.TitleDataset;
-            StandardClusteringTesting.run(newDataset, 20);
-
-            percentageToKeep = 0.20;
-            FeatureToKeep = Convert.ToInt32(percentageToKeep * Convert.ToDouble(dataset.InputVariables.Count));
-            newDataset = DFFS.Run(dataset, FeatureToKeep);
-            newDataset.TitleDataset = "20% - " + newDataset.TitleDataset;
-            StandardClusteringTesting.run(newDataset, 20);
-
-            percentageToKeep = 0.08;
-            FeatureToKeep = Convert.ToInt32(percentageToKeep * Convert.ToDouble(dataset.InputVariables.Count));
-            newDataset = DFFS.Run(dataset, FeatureToKeep);
-            newDataset.TitleDataset = "8% - " + newDataset.TitleDataset;
-            StandardClusteringTesting.run(newDataset, 20);
-
-            percentageToKeep = 0.04;
-            FeatureToKeep = Convert.ToInt32(percentageToKeep * Convert.ToDouble(dataset.InputVariables.Count));
-            newDataset = DFFS.Run(dataset, FeatureToKeep);
-            newDataset.TitleDataset = "4% - " + newDataset.TitleDataset;
-            StandardClusteringTesting.run(newDataset, 20);
-
-            DFFS = new DocumentFrequencyFS();
-            //dataset = PenDigits_Debug.run();
+            DFFS = new RelevanceRedudanceFS(new MeanAbsoluteDifferenceFS(), new AbsoluteCosineSimilarity());
             newDataset = DFFS.Run(dataset);
-            //dataset = ImageSegmentation_Debug.run();
+            Serializer.SerializeObject(base_url + "Dataset - " + newDataset.TitleDataset + ".txt", newDataset);
             StandardClusteringTesting.run(newDataset, 20);
 
-            percentageToKeep = 0.80;
-            FeatureToKeep = Convert.ToInt32(percentageToKeep * Convert.ToDouble(dataset.InputVariables.Count));
-            newDataset = DFFS.Run(dataset, FeatureToKeep);
-            newDataset.TitleDataset = "75% - " + newDataset.TitleDataset;
-            StandardClusteringTesting.run(newDataset, 20);
-
-            percentageToKeep = 0.70;
-            FeatureToKeep = Convert.ToInt32(percentageToKeep * Convert.ToDouble(dataset.InputVariables.Count));
-            newDataset = DFFS.Run(dataset, FeatureToKeep);
-            newDataset.TitleDataset = "70% - " + newDataset.TitleDataset;
-            StandardClusteringTesting.run(newDataset, 20);
-
-            percentageToKeep = 0.60;
-            FeatureToKeep = Convert.ToInt32(percentageToKeep * Convert.ToDouble(dataset.InputVariables.Count));
-            newDataset = DFFS.Run(dataset, FeatureToKeep);
-            newDataset.TitleDataset = "60% - " + newDataset.TitleDataset;
-            StandardClusteringTesting.run(newDataset, 20);
-
-            percentageToKeep = 0.40;
-            FeatureToKeep = Convert.ToInt32(percentageToKeep * Convert.ToDouble(dataset.InputVariables.Count));
-            newDataset = DFFS.Run(dataset, FeatureToKeep);
-            newDataset.TitleDataset = "40% - " + newDataset.TitleDataset;
-            StandardClusteringTesting.run(newDataset, 20);
-
-            percentageToKeep = 0.20;
-            FeatureToKeep = Convert.ToInt32(percentageToKeep * Convert.ToDouble(dataset.InputVariables.Count));
-            newDataset = DFFS.Run(dataset, FeatureToKeep);
-            newDataset.TitleDataset = "20% - " + newDataset.TitleDataset;
-            StandardClusteringTesting.run(newDataset, 20);
-
-            percentageToKeep = 0.08;
-            FeatureToKeep = Convert.ToInt32(percentageToKeep * Convert.ToDouble(dataset.InputVariables.Count));
-            newDataset = DFFS.Run(dataset, FeatureToKeep);
-            newDataset.TitleDataset = "8% - " + newDataset.TitleDataset;
-            StandardClusteringTesting.run(newDataset, 20);
-
-            percentageToKeep = 0.04;
-            FeatureToKeep = Convert.ToInt32(percentageToKeep * Convert.ToDouble(dataset.InputVariables.Count));
-            newDataset = DFFS.Run(dataset, FeatureToKeep);
-            newDataset.TitleDataset = "4% - " + newDataset.TitleDataset;
-            StandardClusteringTesting.run(newDataset, 20);
-
-            DFFS = new TermContributionFS();
-
-            //dataset = PenDigits_Debug.run();
+            DFFS = new RelevanceRedudanceFS(new AMGMFS(), new AbsoluteCosineSimilarity());
             newDataset = DFFS.Run(dataset);
-            //dataset = ImageSegmentation_Debug.run();
+            Serializer.SerializeObject(base_url + "Dataset - " + newDataset.TitleDataset + ".txt", newDataset);
             StandardClusteringTesting.run(newDataset, 20);
 
-            percentageToKeep = 0.80;
-            FeatureToKeep = Convert.ToInt32(percentageToKeep * Convert.ToDouble(dataset.InputVariables.Count));
-            newDataset = DFFS.Run(dataset, FeatureToKeep);
-            newDataset.TitleDataset = "75% - " + newDataset.TitleDataset;
+            DFFS = new RelevanceRedudanceFS(new TermVarianceFS(), new AbsoluteCosineSimilarity());
+            newDataset = DFFS.Run(dataset);
+            Serializer.SerializeObject(base_url + "Dataset - " + newDataset.TitleDataset + ".txt", newDataset);
             StandardClusteringTesting.run(newDataset, 20);
 
-            percentageToKeep = 0.70;
-            FeatureToKeep = Convert.ToInt32(percentageToKeep * Convert.ToDouble(dataset.InputVariables.Count));
-            newDataset = DFFS.Run(dataset, FeatureToKeep);
-            newDataset.TitleDataset = "70% - " + newDataset.TitleDataset;
-            StandardClusteringTesting.run(newDataset, 20);
-
-            percentageToKeep = 0.60;
-            FeatureToKeep = Convert.ToInt32(percentageToKeep * Convert.ToDouble(dataset.InputVariables.Count));
-            newDataset = DFFS.Run(dataset, FeatureToKeep);
-            newDataset.TitleDataset = "60% - " + newDataset.TitleDataset;
-            StandardClusteringTesting.run(newDataset, 20);
-
-            percentageToKeep = 0.40;
-            FeatureToKeep = Convert.ToInt32(percentageToKeep * Convert.ToDouble(dataset.InputVariables.Count));
-            newDataset = DFFS.Run(dataset, FeatureToKeep);
-            newDataset.TitleDataset = "40% - " + newDataset.TitleDataset;
-            StandardClusteringTesting.run(newDataset, 20);
-
-            percentageToKeep = 0.20;
-            FeatureToKeep = Convert.ToInt32(percentageToKeep * Convert.ToDouble(dataset.InputVariables.Count));
-            newDataset = DFFS.Run(dataset, FeatureToKeep);
-            newDataset.TitleDataset = "20% - " + newDataset.TitleDataset;
-            StandardClusteringTesting.run(newDataset, 20);
-
-            percentageToKeep = 0.08;
-            FeatureToKeep = Convert.ToInt32(percentageToKeep * Convert.ToDouble(dataset.InputVariables.Count));
-            newDataset = DFFS.Run(dataset, FeatureToKeep);
-            newDataset.TitleDataset = "8% - " + newDataset.TitleDataset;
-            StandardClusteringTesting.run(newDataset, 20);
-
-            percentageToKeep = 0.04;
-            FeatureToKeep = Convert.ToInt32(percentageToKeep * Convert.ToDouble(dataset.InputVariables.Count));
-            newDataset = DFFS.Run(dataset, FeatureToKeep);
-            newDataset.TitleDataset = "4% - " + newDataset.TitleDataset;
-            StandardClusteringTesting.run(newDataset, 20);
+            StandardClusteringTesting.run(dataset, 20);
+            Console.WriteLine("finish!");
             string hold = Console.ReadLine();
         }
     }

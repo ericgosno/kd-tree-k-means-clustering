@@ -49,7 +49,7 @@ namespace DebuggerConsole
                 minDistortionKDTree = Math.Min(minDistortionKDTree, clusters.calculateSSE());
                 for (int i = 0; i < dataset.OutputVariables.Count; i++)
                 {
-                    maxNIGForgy[i] = Math.Max(maxNIGForgy[i], clusters.CalculateNIG(dataset.OutputVariables[i]));
+                    maxNIGKDTree[i] = Math.Max(maxNIGKDTree[i], clusters.CalculateNIG(dataset.OutputVariables[i]));
                 }
 
                 List<string> report = clusters.PrintCompleteResult();
@@ -71,7 +71,7 @@ namespace DebuggerConsole
                 meanDistortionForgy += SSENow;
                 for (int i = 0; i < dataset.OutputVariables.Count; i++)
                 {
-                    maxNIGKDTree[i] = Math.Max(maxNIGKDTree[i], clusters2.CalculateNIG(dataset.OutputVariables[i]));
+                    maxNIGForgy[i] = Math.Max(maxNIGForgy[i], clusters2.CalculateNIG(dataset.OutputVariables[i]));
                 }
 
                 if (Math.Abs(SSENow - minDistortionKDTree) < 1e-3) ForgyDraw++;

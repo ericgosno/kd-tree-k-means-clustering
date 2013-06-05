@@ -24,6 +24,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Extension
 {
@@ -31,6 +33,7 @@ namespace Extension
     /// CategoricalVariable Class
     /// Store information about Categorical Type Variable
     /// </summary>
+    [Serializable()]
     public class CategoricalVariable : DiscreetVariable
     {
         #region private_or_protected_properties
@@ -131,6 +134,26 @@ namespace Extension
                 }
             }
             return report;
+        }
+        #endregion
+
+        #region implementation Iserializeable
+        public CategoricalVariable(SerializationInfo info, StreamingContext ctxt)
+            : base(info,ctxt)
+        {
+            try
+            {
+                this.paramVariables = (Dictionary<object, int>)info.GetValue("paramVariables", typeof(Dictionary<object, int>));
+            }
+            catch (Exception ex)
+            {
+                this.paramVariables = new Dictionary<object, int>();
+            }
+        }
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            base.GetObjectData(info, context);
+            info.AddValue("paramVariables", this.paramVariables);
         }
         #endregion
     }

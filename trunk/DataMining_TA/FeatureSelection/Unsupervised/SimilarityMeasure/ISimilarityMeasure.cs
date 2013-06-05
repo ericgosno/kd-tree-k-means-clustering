@@ -1,5 +1,5 @@
-﻿// <copyright file="MedianSortSelectSeparator.cs">
-// Copyright (c) 05-05-2013 All Right Reserved
+﻿// <copyright file="ISimilarityMeasure.cs">
+// Copyright (c) 06-03-2013 All Right Reserved
 // </copyright>
 
 // This script is free software; you can redistribute it and/or modify
@@ -16,28 +16,24 @@
 // GNU General Public License for more details.
 
 // <author>Eric Budiman Gosno <eric.gosno@gmail.com></author>
-// <date>05-05-2013</date>
-// <summary>Class representing a MedianSortSelectSeparator.cs entity.</summary>
+// <date>06-03-2013</date>
+// <summary>Class representing a ISimilarityMeasure.cs entity.</summary>
 
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Extension;
 
-namespace K_D_Tree.Separator
+namespace FeatureSelection.Unsupervised.SimilarityMeasure
 {
     /// <summary>
-    /// Standard Median Finding by sort then select list point (SortSelect Method)
+    /// Interface for Similarity Measure Method
     /// </summary>
-    public class MedianSortSelectSeparator : ISeparator
+    public interface ISimilarityMeasure
     {
-        #region implementation of ISeparator
-        public double Run(List<double> listPoint)
-        {
-            listPoint.Sort();
-            return listPoint[listPoint.Count / 2];
-        }
-        #endregion
+        double Run(Variables var1, Variables var2);
+        double Run(Dataset dataset,Variables var1, Variables var2);
     }
 }
