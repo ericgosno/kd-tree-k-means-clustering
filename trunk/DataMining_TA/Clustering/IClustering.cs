@@ -35,6 +35,6 @@ namespace Clustering
     {
         ClusteringResult Run(Dataset dataset, int numCluster, bool isNormalize);
         ClusteringResult Run();
-        List<string> PrintClusterResult();
+        List<string> PrintDetail();
     }
 }

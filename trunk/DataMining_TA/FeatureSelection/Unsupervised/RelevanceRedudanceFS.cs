@@ -237,6 +237,9 @@ namespace FeatureSelection.Unsupervised
                 totalMark += termMark[var];
             }
 
+            var sortedDict = (from entry in termMark orderby entry.Value descending select entry)
+                .ToDictionary(pair => pair.Key, pair => pair.Value);
+
             // sort term by its value (Decreasing Order)
             tmpDataset.InputVariables.Sort((t1, t2) => termMark[t2].CompareTo(termMark[t1]));
 

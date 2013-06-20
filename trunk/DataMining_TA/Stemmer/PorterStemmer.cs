@@ -78,10 +78,6 @@ namespace Stemmer
             string result = "";
             p_word = p_word.ToLower();
 
-            /* Exception 1 */
-            //KeyValuePair<bool,string> except = IsException1(p_word);
-            //if (except.Key) return except.Value;
-
             /* Filter length */
             if (p_word.Length < 3) return p_word;
 

@@ -18,10 +18,12 @@ namespace DebuggerConsole
             List<string> totalReport = new List<string>();
             double minDistortionKDTree = double.MaxValue;
             double minDistortionForgy = double.MaxValue;
-            double minKDTreeTime = double.MaxValue;
-            double maxKDTreeTime = double.MinValue;
-            double minForgyTime = double.MaxValue;
-            double maxForgyTime = double.MinValue;
+
+            long minKDTreeTime = long.MaxValue;
+            long maxKDTreeTime = long.MinValue;
+            long minForgyTime = long.MaxValue;
+            long maxForgyTime = long.MinValue;
+            long totalForgyTime = 0;
 
             List<double> listSSEForgy = new List<double>();
             List<double> maxNIGKDTree = new List<double>();
@@ -53,7 +55,7 @@ namespace DebuggerConsole
                 }
 
                 List<string> report = clusters.PrintCompleteResult();
-                for (int i = 0; i < report.Count; i++) Console.WriteLine(report[i]);
+                //for (int i = 0; i < report.Count; i++) Console.WriteLine(report[i]);
                 reportKDTree.AddRange(report);
             }
             System.IO.File.WriteAllLines(base_url + datasetName + @".KDTree.output.txt", reportKDTree);
@@ -67,6 +69,8 @@ namespace DebuggerConsole
                 listSSEForgy.Add(SSENow);
                 minForgyTime = Math.Min(minForgyTime, clusters2.RunningTime);
                 maxForgyTime = Math.Max(maxForgyTime, clusters2.RunningTime);
+                totalForgyTime += clusters2.RunningTime;
+
                 minDistortionForgy = Math.Min(minDistortionForgy, SSENow);
                 meanDistortionForgy += SSENow;
                 for (int i = 0; i < dataset.OutputVariables.Count; i++)
@@ -79,7 +83,7 @@ namespace DebuggerConsole
                 else if (SSENow > minDistortionKDTree) ForgyLose++;
 
                 List<string> report2 = clusters2.PrintCompleteResult();
-                for (int i = 0; i < report2.Count; i++) Console.WriteLine(report2[i]);
+                //for (int i = 0; i < report2.Count; i++) Console.WriteLine(report2[i]);
                 reportForgy.AddRange(report2);
             }
             System.IO.File.WriteAllLines(base_url + datasetName + @".Forgy.output.txt", reportForgy);
@@ -99,6 +103,7 @@ namespace DebuggerConsole
             totalReport.Add("Max KD-Tree Time : " + maxKDTreeTime);
             totalReport.Add("Min Forgy Time : " + minForgyTime);
             totalReport.Add("Max Forgy Time : " + maxForgyTime);
+            totalReport.Add("Total Forgy Time : " + totalForgyTime);
             totalReport.Add("Min SSE KD-Tree : " + minDistortionKDTree);
             totalReport.Add("Min SSE Forgy : " + minDistortionForgy);
             totalReport.Add("Mean SSE Forgy : " + meanDistortionForgy);
@@ -110,6 +115,10 @@ namespace DebuggerConsole
                 totalReport.Add("Max " + dataset.OutputVariables[i].NameVariables + " NIG Forgy: " + maxNIGForgy[i]);
             }
             System.IO.File.WriteAllLines(base_url + datasetName + @".total.output.txt", totalReport);
+            for (int i = 0; i < totalReport.Count; i++)
+            {
+                Console.WriteLine(totalReport[i]);
+            }
         }
     }
 }

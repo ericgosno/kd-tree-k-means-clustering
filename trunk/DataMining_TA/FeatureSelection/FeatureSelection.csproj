@@ -74,7 +74,6 @@
     <Compile Include="Unsupervised\DispersionMeasure\MeanAbsoluteDifferenceFS.cs" />
     <Compile Include="Unsupervised\DispersionMeasure\MeanMedianFS.cs" />
     <Compile Include="Unsupervised\IUnsupervisedFS.cs" />
-    <Compile Include="Unsupervised\PrincipalComponentAnalysisFS.cs" />
     <Compile Include="Unsupervised\DispersionMeasure\IDispersionMeasure.cs" />
     <Compile Include="Unsupervised\DispersionMeasure\TermContributionFS.cs" />
     <Compile Include="Unsupervised\DispersionMeasure\TermVarianceFS.cs" />

@@ -141,31 +141,6 @@ namespace Extension
         #endregion
 
         #region public_function
-        public void Save(string url)
-        {
-            var serializer = new DataContractSerializer(typeof(Dataset));
-            string xmlString;
-            using (var sw = new StringWriter())
-            {
-                using (var writer = new XmlTextWriter(sw))
-                {
-                    writer.Formatting = Formatting.Indented; // indent the Xml so it's human readable
-                    serializer.WriteObject(writer, this);
-                    writer.Flush();
-                    xmlString = sw.ToString();
-                    List<string> tes = new List<string>();
-                    tes.Add(xmlString);
-                    File.WriteAllLines(url, tes);
-                }
-            }
-                //XmlSerializer xmlserial = new XmlSerializer(typeof(Dataset));
-                //StreamWriter streamw = File.CreateText(url);
-                //Stream stream = File.OpenWrite(url);
-                //streamw.Position = 0;
-                //xmlserial.Serialize(streamw, this);
-                //streamw.Close();
-        }
-
         /// <summary>
         /// Copies this instance.
         /// </summary>
