@@ -166,7 +166,7 @@ namespace Clustering
         /// </summary>
         /// <param name="ClusterResult">The cluster result.</param>
         /// <returns></returns>
-        public List<string> PrintClusterResult()
+        public List<string> PrintDetail()
         {
             List<string> ans = new List<string>();
             ans.Add("K-Means Clustering Algorithm");
@@ -214,11 +214,13 @@ namespace Clustering
         private bool KMeanRep(List<Row> listRow)
         {
             bool isRepeatAgain = false;
+            // Release all data from cluster
             for (int i = 0; i < clusters.Count; i++)
             {
                 clusters[i].MemberCluster.Clear();
             }
 
+            // Assign data to the nearest cluster
             for (int i = 0; i < listRow.Count; i++)
             {
                 KeyValuePair<int, double> mini = new KeyValuePair<int, double>(-1, 2000000000);
@@ -233,6 +235,7 @@ namespace Clustering
                 clusters[mini.Key].MemberCluster.Add(listRow[i]);
             }
 
+            // Calculate new centroid
             for (int i = 0; i < clusters.Count; i++)
             {
                 Row news = new Row();
@@ -269,11 +272,11 @@ namespace Clustering
             }
             clusters = new List<Cluster>();
 
-            Dataset tmpDataset = this.dataset; //dataset.Copy();
+            Dataset tmpDataset = this.dataset; 
 
             if (isNormalize)
             {
-                // Normalize
+                // Normalize data
                 for (int i = 0; i < tmpDataset.ListRow.Count; i++)
                 {
                     foreach(Variables j in tmpDataset.ListRow[i].InputValue.Keys)
@@ -285,27 +288,27 @@ namespace Clustering
                 }
             }
 
-            //Console.WriteLine("Number Cluster = " + numCluster.ToString());
-            //Console.WriteLine("Number Epoch = " + numRep.ToString());
-
+            // Do Initialization Centroid and make Cluster
             List<Row> listCentroid = initializationMethod.Run(tmpDataset, numCluster);
             for (int i = 0; i < listCentroid.Count; i++)
             {
                 clusters.Add(new Cluster(listCentroid[i]));
             }
 
+            // Do Iterative Function
             int lastRep = numRep;
             for (int i = 0; i < numRep; i++)
             {
-                Console.WriteLine("Repetition #" + (i + 1).ToString());
+                //Console.WriteLine("Repetition #" + (i + 1).ToString());
                 if (!KMeanRep(tmpDataset.ListRow))
                 {
                     lastRep = i+1;
-                    Console.WriteLine("Finished at Repetition #" + (i + 1).ToString());
+                    //Console.WriteLine("Finished at Repetition #" + (i + 1).ToString());
                     break;
                 }
             }
             
+            // Remove cluster with zero member
             List<Cluster> anews = new List<Cluster>();
             foreach (Cluster x in clusters)
             {
@@ -316,8 +319,8 @@ namespace Clustering
             }
             clusters = anews;
 
+            // Make new ClusterinResult then return it as ouput
             ClusteringResult result = new ClusteringResult(dataset,clusters, lastRep,this);
-            
             return result;
         }
         #endregion

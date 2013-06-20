@@ -122,7 +122,7 @@ namespace Clustering
         public List<string> PrintCompleteResult()
         {
             List<string> report = new List<string>();
-            report.AddRange(this.clusteringMethod.PrintClusterResult());
+            report.AddRange(this.clusteringMethod.PrintDetail());
             report.AddRange(this.dataset.PrintDatasetDetail());
             report.AddRange(this.PrintDetail());
             report.AddRange(this.PrintClusterDetail());

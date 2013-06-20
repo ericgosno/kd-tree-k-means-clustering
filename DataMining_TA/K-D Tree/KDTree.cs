@@ -266,16 +266,18 @@ namespace K_D_Tree
                 if (Math.Abs(value - nodeNow.PivotValue) < 1e-3)
                 {
                     numMedian++;
-                    if (numMedian % 2 == 0) leftRow.Add(pointList[i]);
-                    else rightRow.Add(pointList[i]);
+                    //rightRow.Add(pointList[i]);
+                    leftRow.Add(pointList[i]);
+                    //if (numMedian % 2 == 0) leftRow.Add(pointList[i]);
+                    //else rightRow.Add(pointList[i]);
                 }
-                else if (value > nodeNow.PivotValue)
+                else if (value < nodeNow.PivotValue)
                 {
-                    rightRow.Add(pointList[i]);
+                    leftRow.Add(pointList[i]);
                 }
                 else
                 {
-                    leftRow.Add(pointList[i]);
+                    rightRow.Add(pointList[i]);
                 }
             }
             // construct child

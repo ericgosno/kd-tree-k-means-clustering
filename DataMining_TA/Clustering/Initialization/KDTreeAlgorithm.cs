@@ -125,11 +125,11 @@ namespace Clustering.Initialization
             List<Row> centroid = new List<Row>();
             // Algorithm start here
             // Build KD-Tree
-            // New journal on ScienceDirect to make bucket contains 20 or less point instead of (number of point / 10 * K)
-            KDTree kdtree = new KDTree(tmpDataset, 20); //tmpDataset.ListRow.Count / (10 * numK));
+            int maxPoint = 20;//tmpDataset.ListRow.Count / (10 * numK);
+            KDTree kdtree = new KDTree(tmpDataset,maxPoint);
+                
             Console.WriteLine("KD-Tree : " + kdtree.RunWithTime());
             List<Leaf> leafBucket = kdtree.ListBucketLeaf;
-            //List<Leaf> leafBucket = kdtree.TraceLeafBucket();
             
             // Use Density Rank Instead of using Density Estimate
             leafBucket.Sort((t1, t2) => t2.Density.CompareTo(t1.Density));
@@ -142,6 +142,7 @@ namespace Clustering.Initialization
                 }
             }
             int x = leafBucket.Count;
+
             // Outlier Removal(if useOutlierRemoval == true)
             int NumRemoval = leafBucket.Count / 5;
             int RemainingBucket = leafBucket.Count - NumRemoval;

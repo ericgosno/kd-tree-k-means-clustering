@@ -127,9 +127,11 @@ namespace FeatureSelection.Unsupervised.DispersionMeasure
 
             for (int i = 0; i < tmpDataset.InputVariables.Count; i++)
             {
-                totalExp[tmpDataset.InputVariables[i]] += (Math.Exp(0.0) * (tmpDataset.ListRow.Count - tmpDataset.InputVariables[i].RowFrequency));
+                //totalExp[tmpDataset.InputVariables[i]] += (Math.Exp(0.0) * (tmpDataset.ListRow.Count - tmpDataset.InputVariables[i].RowFrequency));
                 meanTerm[tmpDataset.InputVariables[i]] /= Convert.ToDouble(tmpDataset.ListRow.Count);
-                termMark[tmpDataset.InputVariables[i]] = totalExp[tmpDataset.InputVariables[i]] / (tmpDataset.ListRow.Count * Math.Exp(meanTerm[tmpDataset.InputVariables[i]]));
+                double denom = tmpDataset.ListRow.Count * Math.Exp(meanTerm[tmpDataset.InputVariables[i]]);
+                double nominator = totalExp[tmpDataset.InputVariables[i]];
+                termMark[tmpDataset.InputVariables[i]] = nominator / denom;
             }
             return termMark;
         }
